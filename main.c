@@ -101,25 +101,16 @@
 volatile bool g_b_led0_active = true;
 // [main_var_led0_control]
 
-#ifdef LED1_GPIO
 /** LED1 blinking control. */
 // [main_var_led1_control]
 volatile bool g_b_led1_active = true;
 // [main_var_led1_control]
-#endif
 
 /** Global g_ul_ms_ticks in milliseconds since start of application */
 // [main_var_ticks]
 volatile uint32_t g_ul_ms_ticks = 0;
 // [main_var_ticks]
 
-/// @cond 0
-/**INDENT-OFF**/
-#ifdef __cplusplus
-extern "C" {
-#endif
-/**INDENT-ON**/
-/// @endcond
 
 /**
  *  \brief Process Buttons Events
@@ -136,7 +127,6 @@ static void ProcessButtonEvt(uint8_t uc_button)
 		}
 	}
 // [main_button1_evnt_process]
-#ifdef LED1_GPIO 
 	else {
 // [main_button2_evnt_process]
 		g_b_led1_active = !g_b_led1_active;
@@ -153,7 +143,6 @@ static void ProcessButtonEvt(uint8_t uc_button)
 		}
 // [main_button2_evnt_process]
 	}
-#endif
 }
 
 /**
@@ -183,7 +172,6 @@ static void Button1_Handler(uint32_t id, uint32_t mask)
 }
 // [main_button1_handler]
 
-#ifndef BOARD_NO_PUSHBUTTON_2
 /**
  *  \brief Handler for Button 2 falling edge interrupt.
  *
@@ -197,7 +185,6 @@ static void Button2_Handler(uint32_t id, uint32_t mask)
 	}
 }
 // [main_button2_handler]
-#endif
 
 /**
  *  \brief Configure the Pushbuttons
@@ -219,7 +206,6 @@ static void configure_buttons(void)
 			(IRQn_Type) PIN_PUSHBUTTON_1_ID, IRQ_PRIOR_PIO);
 	pio_enable_interrupt(PIN_PUSHBUTTON_1_PIO, PIN_PUSHBUTTON_1_MASK);
 // [main_button1_configure]
-#ifndef BOARD_NO_PUSHBUTTON_2
 // [main_button2_configure]
 	/* Configure Pushbutton 2 */
 	pmc_enable_periph_clk(PIN_PUSHBUTTON_2_ID);
@@ -232,14 +218,12 @@ static void configure_buttons(void)
 			(IRQn_Type) PIN_PUSHBUTTON_2_ID, IRQ_PRIOR_PIO);
 	pio_enable_interrupt(PIN_PUSHBUTTON_2_PIO, PIN_PUSHBUTTON_2_MASK);
 // [main_button2_configure]
-#endif
 }
 
 /**
  *  Interrupt handler for TC0 interrupt. Toggles the state of LED\#2.
  */
 // [main_tc0_handler]
-#ifndef BOARD_NO_LED_1
 void TC0_Handler(void)
 {
 	volatile uint32_t ul_dummy;
@@ -250,10 +234,8 @@ void TC0_Handler(void)
 	/* Avoid compiler warning */
 	UNUSED(ul_dummy);
 
-#ifdef LED1_GPIO
 	/** Toggle LED state. */
 	ioport_toggle_pin_level(LED1_GPIO);
-#endif
 
 	printf("2 ");
 }
@@ -271,12 +253,6 @@ static void configure_tc(void)
 
 	/* Configure PMC */
 	pmc_enable_periph_clk(ID_TC0);
-#if SAMG55
-	/* Enable PCK output */
-	pmc_disable_pck(PMC_PCK_3);
-	pmc_switch_pck_to_sclk(PMC_PCK_3, PMC_PCK_PRES(0));
-	pmc_enable_pck(PMC_PCK_3);
-#endif
 
 	/** Configure TC for a 4Hz frequency and trigger on RC compare. */
 	tc_find_mck_divisor(4, ul_sysclk, &ul_div, &ul_tcclks, ul_sysclk);
@@ -287,16 +263,11 @@ static void configure_tc(void)
 	NVIC_EnableIRQ((IRQn_Type) ID_TC0);
 	tc_enable_interrupt(TC0, 0, TC_IER_CPCS);
 
-#ifdef LED1_GPIO
 	/** Start the counter if LED1 is enabled. */
 	if (g_b_led1_active) {
 		tc_start(TC0, 0);
 	}
-#else
-	tc_start(TC0, 0);
-#endif
 }
-#endif
 // [main_tc_configure]
 
 /**
@@ -353,16 +324,6 @@ int main(void)
 	board_init();
 //! [main_step_sys_init]
 
-#ifndef BOARD_NO_PUSHBUTTON_2
-#if (SAMV71 || SAMV70 || SAMS70 || SAME70)
-	if (GPIO_PUSH_BUTTON_2 == PIO_PB12_IDX) {
-		matrix_set_system_io(matrix_get_system_io() | CCFG_SYSIO_SYSIO12);
-	}
-	ioport_set_pin_dir(GPIO_PUSH_BUTTON_2, IOPORT_DIR_INPUT);
-	ioport_set_pin_mode(GPIO_PUSH_BUTTON_2, GPIO_PUSH_BUTTON_2_FLAGS);
-	ioport_set_pin_sense_mode(GPIO_PUSH_BUTTON_2, GPIO_PUSH_BUTTON_2_SENSE);
-#endif
-#endif
 //! [main_step_console_init]
 	/* Initialize the console uart */
 	configure_console();
@@ -380,12 +341,10 @@ int main(void)
 	}
 //! [main_step_systick_init]
 
-#ifndef BOARD_NO_LED_1
-	puts("Configure TC.\r");
+       puts("Configure TC.\r");
 //! [main_step_tc_init]
-	configure_tc();
+       configure_tc();
 //! [main_step_tc_init]
-#endif
 
 	puts("Configure buttons with debouncing.\r");
 //! [main_step_btn_init]
@@ -395,10 +354,8 @@ int main(void)
 	printf("Press %s to Start/Stop the %s blinking.\r\n",
 			PUSHBUTTON_1_NAME, LED_0_NAME);
 
-#ifndef BOARD_NO_PUSHBUTTON_2
 	printf("Press %s to Start/Stop the %s blinking.\r\n",
 			PUSHBUTTON_2_NAME, LED_1_NAME);
-#endif
 
 //! [main_step_loop]
 	while (1) {
@@ -416,11 +373,3 @@ int main(void)
 	}
 //! [main_step_loop]
 }
-// [main]
-/// @cond 0
-/**INDENT-OFF**/
-#ifdef __cplusplus
-}
-#endif
-/**INDENT-ON**/
-/// @endcond
