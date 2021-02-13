@@ -162,3 +162,5 @@ LDFLAGS = \
 # Pre- and post-build commands
 PREBUILD_CMD = 
 POSTBUILD_CMD = 
+
+BUILD_DIR = build
