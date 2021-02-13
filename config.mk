@@ -37,7 +37,7 @@
 #
 
 # Path to top level ASF directory relative to this project directory.
-PRJ_PATH = ../../../../..
+PRJ_PATH = xdk-asf-3.49.1
 
 # Target CPU architecture: cortex-m3, cortex-m4
 ARCH = cortex-m4
@@ -47,17 +47,17 @@ PART = sam4c16c:0
 
 # Application target name. Given with suffix .a for library and .elf for a
 # standalone application.
-TARGET_FLASH = getting-started_flash.elf
-TARGET_SRAM = getting-started_sram.elf
+TARGET_FLASH = emfi_flash.elf
+TARGET_SRAM = emfi_sram.elf
 
 # List of C source files.
 CSRCS = \
+       ../src/main.c            						  \
        common/services/clock/sam4c/sysclk.c               \
        common/services/serial/usart_serial.c              \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \
        common/utils/stdio/write.c                         \
-       sam/applications/getting-started/main.c            \
        sam/boards/sam4c_ek/init.c                         \
        sam/drivers/pio/pio.c                              \
        sam/drivers/pio/pio_handler.c                      \
@@ -75,6 +75,7 @@ ASSRCS =
 
 # List of include paths.
 INC_PATH = \
+	   ../include										  \
        common/boards                                      \
        common/services/clock                              \
        common/services/ioport                             \
@@ -82,8 +83,6 @@ INC_PATH = \
        common/services/serial/sam_uart                    \
        common/utils                                       \
        common/utils/stdio/stdio_serial                    \
-       sam/applications/getting-started                   \
-       sam/applications/getting-started/sam4c16c_sam4c_ek \
        sam/boards                                         \
        sam/boards/sam4c_ek                                \
        sam/drivers/pio                                    \
@@ -97,8 +96,12 @@ INC_PATH = \
        sam/utils/header_files                             \
        sam/utils/preprocessor                             \
        thirdparty/CMSIS/Include                           \
-       thirdparty/CMSIS/Lib/GCC \
-       sam/applications/getting-started/sam4c16c_sam4c_ek/gcc
+       thirdparty/CMSIS/Lib/GCC
+
+
+#       sam/applications/getting-started                   \
+#       sam/applications/getting-started/sam4c16c_sam4c_ek \
+#       sam/applications/getting-started/sam4c16c_sam4c_ek/gcc \
 
 # Additional search paths for libraries.
 LIB_PATH =  \

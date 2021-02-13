@@ -48,5 +48,12 @@
 
 # Include the common Makefile, which will also include the project specific
 # config.mk file.
-MAKEFILE_PATH = ../../../../../sam/utils/make/Makefile.sam.in
+MAKEFILE_PATH = Makefile.sam.in
 include $(MAKEFILE_PATH)
+
+
+clean: custom_clean
+
+custom_clean:
+	rm -rf getting-started_flash.*
+	rm -rf emfi.*
