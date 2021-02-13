@@ -51,6 +51,10 @@
 MAKEFILE_PATH = Makefile.sam.in
 include $(MAKEFILE_PATH)
 
+.PHONY: server custom_clean
+
+server:
+	JLinkGDBServer -device AT91SAM4S16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 clean: custom_clean
 
