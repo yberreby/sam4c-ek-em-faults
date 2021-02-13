@@ -59,5 +59,4 @@ server:
 clean: custom_clean
 
 custom_clean:
-	rm -rf getting-started_flash.*
-	rm -rf emfi.*
+	rm -rf emfi_*
