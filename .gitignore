@@ -8,4 +8,6 @@ xdk-asf-3.49.1
 *.lss
 *.map
 *.sym
+*.o
+*.d
 build
