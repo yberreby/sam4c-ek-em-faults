@@ -1,2 +1,10 @@
 # ASF support libraries
 xdk-asf-3.49.1
+
+# Build artefacts
+*.bin
+*.elf
+*.hex
+*.lss
+*.map
+*.sym
