@@ -58,3 +58,10 @@ server:
 
 serial:
 	tio -b 115200 -d 8 -f none -s 1 --parity none /dev/ttyUSB0
+
+
+# Work around buggy Makefile.sam.in
+clean: custom_clean
+
+custom_clean:
+	rm -rf emfi_flash*
