@@ -1,4 +1,7 @@
+// XXX: track down the asf.h include
+// dep graph?
 #include "asf.h"
+
 #include "stdio_serial.h"
 #include "conf_board.h"
 #include "conf_clock.h"
