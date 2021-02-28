@@ -91,3 +91,61 @@ p.50 : Peripherals Identifiers (AES)
 Prendre ce qu'il y a de plus simple, entre 2 coeurs et AES
 
 
+
+## Important information
+
+The PIO controller is responsible for GPIO and is fed directly from the PMC by
+the Peripheral Clock.
+It can be programmed before setting up the clock.
+
+The peripheral clock needs to be enabled.
+=> easy way to do this in C: IOPORT/ioport_init()
+
+TODO: find pins.
+  User guide p. 24
+
+
+32.4.1 Pin multiplexing
+
+might need to set pin mode
+  https://asf.microchip.com/docs/latest/sam4c/html/group__ioport__group.html#ioport_modes
+
+
+open drain seems to be for 32.5.6 Multi-Drive Control: unneeded here
+
+We'll need a pull-down?
+
+PIO_SODR = Set Output Data Register
+CODR = Clear Output
+
+PIO_PSR is controlled by PIO_PER / PDR (if disabled, peripheral has control)
+
+(TODO: write an article about this)
+
+"Enabling the pull-down resistor while the pull-up resistor is still enabled is
+not possible."
+
+
+"Figure 32-3 shows how the outputs are driven either by writing PIO_SODR or
+PIO_CODR, or by directly writingPIO_ODSR. This last case is valid only if the
+corresponding bit in PIO_OWSR is set"
+
+use PIO_OWER to enable writing, then write to PIO_ODSR
+
+
+edge levels: irrelevant, no interrupts here
+
+high-drive: more current, such as for LEDs
+
+
+
+TODO: let's drive an LED :p
+
+TODO: let's drive clock directly to an output
+
+TODO: use ASM for output
+
+
+where's the ground?
+
+maybe redo shit with Arduino
