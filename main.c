@@ -1,19 +1,26 @@
 // XXX: track down the asf.h include
 // dep graph?
+
+#include "conf_clock.h"
+#include "conf_board.h"
+
 #include "asf.h"
 
-#include "stdio_serial.h"
-#include "conf_board.h"
-#include "conf_clock.h"
+#include "stdlib.h"
+#include "sysclk.h"
 
-/** IRQ priority for PIO (The lower the value, the greater the priority) */
-#define IRQ_PRIOR_PIO    0
+#include "ioport.h"
+#include "stdio_serial.h"
 
 
 #define STRING_EOL    "\r"
 #define STRING_HEADER "-- EMFI --\r\n" \
 		"-- "BOARD_NAME" --\r\n" \
 		"-- Compiled: "__DATE__" "__TIME__" --"STRING_EOL
+
+#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOA, 0)
+#define STATUS_PIN     IOPORT_CREATE_PIN(PIOA, 1)
+
 
 /**
  *  Configure UART console.
@@ -36,6 +43,12 @@ static void configure_console(void)
 }
 
 
+static void print_clk_info(void) {
+  printf("CPU Hz: %lu\n", sysclk_get_cpu_hz());
+  printf("Peripheral clock Hz: %lu\n", sysclk_get_peripheral_hz());
+}
+
+
 int main(void)
 {
 	/* Initialize the SAM system */
@@ -48,9 +61,17 @@ int main(void)
 	/* Output startup info to serial port */
 	puts(STRING_HEADER);
 
-	while (1) {
-      __asm__("nop");
-	}
+    /* Send info about the clock frequencies to the serial port */
+    print_clk_info();
+
+    ioport_init();
+
+
+    /* Setup output pins */
+    ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
+    ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+    
+    // TODO
 
     return 0;
 }

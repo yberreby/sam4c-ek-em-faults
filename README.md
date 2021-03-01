@@ -149,3 +149,7 @@ TODO: use ASM for output
 where's the ground?
 
 maybe redo shit with Arduino
+
+bypass mode is to connect an external oscillator
+
+
