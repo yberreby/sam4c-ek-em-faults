@@ -54,8 +54,12 @@ int main(void)
 	/* Initialize the SAM system */
 	sysclk_init();
 	board_init();
+    ioport_init();
+    
+    /* Disable interrupts globally */
+    cpu_irq_disable();
 
-	/* Initialize the console uart */
+	/* Initialize the console uart, for debug output */
 	configure_console();
 
 	/* Output startup info to serial port */
@@ -64,7 +68,6 @@ int main(void)
     /* Send info about the clock frequencies to the serial port */
     print_clk_info();
 
-    ioport_init();
 
 
     /* Setup output pins */
