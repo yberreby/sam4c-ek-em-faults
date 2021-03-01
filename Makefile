@@ -51,7 +51,7 @@
 MAKEFILE_PATH = Makefile.sam.in
 include $(MAKEFILE_PATH)
 
-.PHONY: server serial
+.PHONY: server serial pretty
 
 server:
 	JLinkGDBServer -device AT91SAM4S16C -endian little -if SWD -speed auto -ir -LocalhostOnly
@@ -65,3 +65,6 @@ clean: custom_clean
 
 custom_clean:
 	rm -rf emfi_flash*
+
+pretty:
+	uncrustify --replace --no-backup -c - *.c include/*.h

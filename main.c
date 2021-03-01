@@ -15,8 +15,8 @@
 
 #define STRING_EOL    "\r"
 #define STRING_HEADER "-- EMFI --\r\n" \
-		"-- "BOARD_NAME" --\r\n" \
-		"-- Compiled: "__DATE__" "__TIME__" --"STRING_EOL
+	"-- "BOARD_NAME " --\r\n" \
+	"-- Compiled: "__DATE__ " "__TIME__ " --"STRING_EOL
 
 #define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOA, 0)
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOA, 1)
@@ -44,8 +44,8 @@ static void configure_console(void)
 
 
 static void print_clk_info(void) {
-  printf("CPU Hz: %lu\n\r", sysclk_get_cpu_hz());
-  printf("Peripheral clock Hz: %lu\n\r", sysclk_get_peripheral_hz());
+	printf("CPU Hz: %lu\n\r", sysclk_get_cpu_hz());
+	printf("Peripheral clock Hz: %lu\n\r", sysclk_get_peripheral_hz());
 }
 
 
@@ -60,45 +60,47 @@ int main(void)
 	/* Initialize the SAM system */
 	sysclk_init();
 	board_init();
-    ioport_init();
-    
-    /* Disable interrupts globally */
-    //cpu_irq_disable();
-    cpu_irq_enable();
+	ioport_init();
+
+	/* Disable interrupts globally */
+	//cpu_irq_disable();
+	cpu_irq_enable();
 
 
-    //irq_initialize_vectors();
+	//irq_initialize_vectors();
 
 
-    /* Disable cache controller for core 0 */
-    cmcc_disable(CMCC0);
+	/* Disable cache controller for core 0 */
+	cmcc_disable(CMCC0);
 
 	/* Initialize the console uart, for debug output */
-	configure_console();
+	configure_console ( );
 
 	/* Output startup info to serial port */
 	puts(STRING_HEADER);
 
-    /* Send info about the clock frequencies to the serial port */
-    print_clk_info();
+	/* Send info about the clock frequencies to the serial port */
+	print_clk_info();
 
-    /* Set up output pins */
-    ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
-    ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+	/* Set up output pins */
+	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
+	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
 
-    while (1) {
-      ioport_set_pin_level(TRIGGER_PIN, true);
-      ioport_set_pin_level(TRIGGER_PIN, false);
-    }
+	asm ("nop");
+	while (1) {
+		ioport_set_pin_level(TRIGGER_PIN, true);
+		ioport_set_pin_level(TRIGGER_PIN, false);
+	}
+	asm ("nop");
 
 
-    //please_hardfault();
-    
-    // Does not return.
-    // Pure asm.
-    run_test_seq();
+	//please_hardfault();
 
-    return 0;
+	// Does not return.
+	// Pure asm.
+	run_test_seq();
+
+	return 0;
 }
 
 

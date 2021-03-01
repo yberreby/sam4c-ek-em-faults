@@ -3,7 +3,7 @@
 
 /**
  * Import ASF header files here.
-**/
+ **/
 
 #include <compiler.h>
 #include <status_codes.h>
