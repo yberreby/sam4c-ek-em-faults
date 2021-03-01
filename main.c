@@ -54,6 +54,30 @@ void run_test_seq(void);
 void please_hardfault(void);
 
 
+// 0 - 1 - 0 signal.
+void trigger_pulse_generator() {
+	ioport_set_pin_level(TRIGGER_PIN, false);
+	ioport_set_pin_level(TRIGGER_PIN, true);
+	ioport_set_pin_level(TRIGGER_PIN, false);
+}
+
+void enable_cycle_counter() {
+  // TODO
+}
+
+void disable_cycle_counter() {
+  // TODO
+}
+
+void signal_seq_start() {
+	ioport_set_pin_level(STATUS_PIN, true);
+}
+
+void signal_seq_end() {
+	ioport_set_pin_level(STATUS_PIN, false);
+}
+
+
 static volatile int *divisor = 0;
 int main(void)
 {
@@ -62,7 +86,7 @@ int main(void)
 	board_init();
 	ioport_init();
 
-	/* Disable interrupts globally */
+	/* Enable/Disable interrupts globally */
 	//cpu_irq_disable();
 	cpu_irq_enable();
 
@@ -74,7 +98,7 @@ int main(void)
 	cmcc_disable(CMCC0);
 
 	/* Initialize the console uart, for debug output */
-	configure_console ( );
+	configure_console();
 
 	/* Output startup info to serial port */
 	puts(STRING_HEADER);
@@ -86,12 +110,12 @@ int main(void)
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
 
-	asm ("nop");
-	while (1) {
-		ioport_set_pin_level(TRIGGER_PIN, true);
-		ioport_set_pin_level(TRIGGER_PIN, false);
-	}
-	asm ("nop");
+	// asm ("nop");
+	// while (1) {
+	// 	ioport_set_pin_level(TRIGGER_PIN, true);
+	// 	ioport_set_pin_level(TRIGGER_PIN, false);
+	// }
+	// asm ("nop");
 
 
 	//please_hardfault();
