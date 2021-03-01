@@ -44,8 +44,8 @@ static void configure_console(void)
 
 
 static void print_clk_info(void) {
-  printf("CPU Hz: %lu\n", sysclk_get_cpu_hz());
-  printf("Peripheral clock Hz: %lu\n", sysclk_get_peripheral_hz());
+  printf("CPU Hz: %lu\n\r", sysclk_get_cpu_hz());
+  printf("Peripheral clock Hz: %lu\n\r", sysclk_get_peripheral_hz());
 }
 
 
