@@ -88,7 +88,7 @@ int main(void)
 
 	/* Enable/Disable interrupts globally */
 	//cpu_irq_disable();
-	cpu_irq_enable();
+	//cpu_irq_enable();
 
 
 	//irq_initialize_vectors();
