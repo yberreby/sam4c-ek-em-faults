@@ -54,50 +54,6 @@ void run_test_seq(void);
 void please_hardfault(void);
 
 
-// TODO: define handlers for
-// - hardfault
-// - bus
-// - usage
-// - memory
-// - nmi
-//
-// Refer to a symbol in ASM file.
-void our_eh(void)
-{ 
-  puts("something bad happened\r");
-   while(1); 
-}
-
-
-
-/* Function prototype for exception table items (interrupt handler). */
-typedef void (*IntFunc) (void);
-
-void UsageFault_Handler(void) {
-  our_eh();
-}
-
-
-void NMI_Handler(void) {
-  our_eh();
-}
-
-
-void MemManage_Handler(void) {
-  our_eh();
-}
-
-
-void HardFault_Handler(void) {
-  our_eh();
-}
-
-
-void BusFault_Handler(void) {
-  our_eh();
-}
-
-
 static volatile int *divisor = 0;
 int main(void)
 {

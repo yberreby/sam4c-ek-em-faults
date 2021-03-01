@@ -53,6 +53,7 @@ TARGET_SRAM = emfi_sram.elf
 # List of C source files.
 CSRCS = \
        ../main.c                 						  \
+       ../handlers.c                 					  \
        common/services/clock/sam4c/sysclk.c               \
        common/services/serial/usart_serial.c              \
        common/utils/interrupt/interrupt_sam_nvic.c        \
