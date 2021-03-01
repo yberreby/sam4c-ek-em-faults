@@ -86,11 +86,13 @@ int main(void)
     ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
     ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
 
+    while (1) {
+      ioport_set_pin_level(TRIGGER_PIN, true);
+      ioport_set_pin_level(TRIGGER_PIN, false);
+    }
 
 
-
-
-    please_hardfault();
+    //please_hardfault();
     
     // Does not return.
     // Pure asm.
