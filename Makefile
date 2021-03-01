@@ -57,7 +57,7 @@ server:
 	JLinkGDBServer -device AT91SAM4S16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 serial:
-	tio -b 115200 -d 8 -f none -s 1 --parity none /dev/ttyUSB0
+	tio -b 62500 -d 8 -f none -s 1 --parity none /dev/ttyUSB0
 
 
 # Work around buggy Makefile.sam.in

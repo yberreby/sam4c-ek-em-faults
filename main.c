@@ -1,8 +1,8 @@
 // XXX: track down the asf.h include
 // dep graph?
-
 #include "conf_clock.h"
 #include "conf_board.h"
+
 
 #include "asf.h"
 
@@ -20,6 +20,8 @@
 
 #define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOA, 0)
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOA, 1)
+
+
 
 
 /**

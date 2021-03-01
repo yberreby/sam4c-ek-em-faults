@@ -40,7 +40,7 @@
 // [conf_uart_serial_settings]
 /** UART Interface */
 #define CONF_UART            CONSOLE_UART
-#define CONF_UART_BAUDRATE   115200UL
+#define CONF_UART_BAUDRATE   62500UL
 #define CONF_UART_PARITY     UART_MR_PAR_NO
 #define CONF_UART_CHAR_LENGTH 8
 #define CONF_UART_STOP_BITS 1
