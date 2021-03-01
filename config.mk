@@ -90,6 +90,7 @@ INC_PATH = \
        sam/drivers/tc                                     \
        sam/drivers/uart                                   \
        sam/drivers/usart                                  \
+       sam/drivers/cmcc                                   \
        sam/utils                                          \
        sam/utils/cmsis/sam4c/include                      \
        sam/utils/cmsis/sam4c/source/templates             \

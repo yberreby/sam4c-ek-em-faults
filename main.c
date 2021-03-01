@@ -8,6 +8,7 @@
 
 #include "stdlib.h"
 #include "sysclk.h"
+#include "cmcc.h"
 
 #include "ioport.h"
 #include "stdio_serial.h"
@@ -58,6 +59,9 @@ int main(void)
     
     /* Disable interrupts globally */
     cpu_irq_disable();
+
+    /* Disable cache controller for core 0 */
+    cmcc_disable(CMCC0);
 
 	/* Initialize the console uart, for debug output */
 	configure_console();
