@@ -13,7 +13,6 @@
 #include "ioport.h"
 #include "stdio_serial.h"
 
-
 #define STRING_EOL    "\r"
 #define STRING_HEADER "-- EMFI --\r\n" \
 		"-- "BOARD_NAME" --\r\n" \
@@ -50,6 +49,56 @@ static void print_clk_info(void) {
 }
 
 
+// Defined externally, in test_seq.S
+void run_test_seq(void);
+void please_hardfault(void);
+
+
+// TODO: define handlers for
+// - hardfault
+// - bus
+// - usage
+// - memory
+// - nmi
+//
+// Refer to a symbol in ASM file.
+void our_eh(void)
+{ 
+  puts("something bad happened\r");
+   while(1); 
+}
+
+
+
+/* Function prototype for exception table items (interrupt handler). */
+typedef void (*IntFunc) (void);
+
+void UsageFault_Handler(void) {
+  our_eh();
+}
+
+
+void NMI_Handler(void) {
+  our_eh();
+}
+
+
+void MemManage_Handler(void) {
+  our_eh();
+}
+
+
+void HardFault_Handler(void) {
+  our_eh();
+}
+
+
+void BusFault_Handler(void) {
+  our_eh();
+}
+
+
+static volatile int *divisor = 0;
 int main(void)
 {
 	/* Initialize the SAM system */
@@ -58,7 +107,12 @@ int main(void)
     ioport_init();
     
     /* Disable interrupts globally */
-    cpu_irq_disable();
+    //cpu_irq_disable();
+    cpu_irq_enable();
+
+
+    //irq_initialize_vectors();
+
 
     /* Disable cache controller for core 0 */
     cmcc_disable(CMCC0);
@@ -72,13 +126,22 @@ int main(void)
     /* Send info about the clock frequencies to the serial port */
     print_clk_info();
 
-
-
-    /* Setup output pins */
+    /* Set up output pins */
     ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
     ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+
+
+
+
+
+    please_hardfault();
     
-    // TODO
+    // Does not return.
+    // Pure asm.
+    run_test_seq();
 
     return 0;
 }
+
+
+// TODO: set irq routine.

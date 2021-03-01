@@ -71,7 +71,9 @@ CSRCS = \
        sam/utils/syscalls/gcc/syscalls.c
 
 # List of assembler source files.
-ASSRCS = 
+# Do note that ONLY the ".S" extension, with a capital S, will work.
+ASSRCS = \
+	   ../test_seq.S
 
 # List of include paths.
 INC_PATH = \
