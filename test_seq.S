@@ -9,21 +9,54 @@
 
 run_test_seq:
   bl initialize_registers
-  bl enable_cycle_counter
+  //bl enable_cycle_counter
   bl trigger_pulse_generator
   bl signal_seq_start
-  bl run_attacked_code
+  //bl run_attacked_code
   bl signal_seq_end
-  bl disable_cycle_counter
+  // TODO: compile then disassemble to choose registers
+  // use r10, r11, r12 for misc GPIO ops
+  //bl disable_cycle_counter
   b stop
 
 
-// XXX:
-// Limitations of immediates?
-// If so, why not ldr everything?
-// Are we sure about the initial states of R0-R9?
+trigger_pulse_generator:
+  ldr  R10,=pioa_output_base
+  ldr  R11,[R10]  
+  movs R12, #1
+  // 0
+  str  R12,[R11, #52]
+  // 1
+  str  R12,[R11, #48]
+  // 0
+  str  R12,[R11, #52]
+  bx lr
+  
+
+signal_seq_start:
+  ldr  R10,=pioa_output_base
+  ldr  R11,[R10]  
+  movs R12, #2
+  // 1 - set reg
+  str  R12,[R11, #48]
+  bx lr
+
+
+signal_seq_end:
+  ldr  R10,=pioa_output_base
+  ldr  R11,[R10]  
+  movs R12, #2
+  // 0 - clear reg
+  str  R12,[R11, #52]
+  bx lr
+  
+
+  
+
+
+
 initialize_registers:
-  mov R0,#0
+  // Ensure that some constants end up in flash.
   ldr R2,=const1
   ldr R2,=const2
   ldr R2,=const3
@@ -36,9 +69,21 @@ initialize_registers:
   ldr R2,=const10
   ldr R2,=const11
   ldr R2,=const12
+
+  // Clear canary registers
   and R0, #0x00000000
   and R1, #0x00000000
   and R2, #0x00000000
+  and R2, #0x00000000
+  and R3, #0x00000000
+  and R4, #0x00000000
+  and R5, #0x00000000
+  and R6, #0x00000000
+  and R7, #0x00000000
+  and R8, #0x00000000
+  and R9, #0x00000000
+
+  // Set canary registers to known values.
   orr R0, #0x11111111
   orr R1, #0x00011000
   orr R2, #0x00033000
@@ -49,48 +94,49 @@ initialize_registers:
   orr R7, #0x05A00000
   orr R8, #0x00000550
   orr R9, #0x00000AA0
+
   bx lr
 
 
 run_attacked_code:
   // XXX: NOP count?
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  add R1,R1, #0x1
-  add R1,R1, #0x2
-  add R1,R1, #0x4
-  add R1,R1, #0x8
-  add R8,R8, #0x1
-  add R8,R8, #0x2
-  add R8,R8, #0x4
-  add R8,R8, #0x8
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  add.w R1,R1, #0x1
+  add.w R1,R1, #0x2
+  add.w R1,R1, #0x4
+  add.w R1,R1, #0x8
+  add.w R8,R8, #0x1
+  add.w R8,R8, #0x2
+  add.w R8,R8, #0x4
+  add.w R8,R8, #0x8
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
+  nop.w
   // XXX: nop count?
   bx lr
 

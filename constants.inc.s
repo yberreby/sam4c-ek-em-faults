@@ -15,3 +15,9 @@ const14: .word                0xF03FF30F
 const15: .word                0xF07FF70F
 const16: .word                0xF0FFFF0F
 const17: .word                0x11111118
+
+
+pioa_output_base:
+ .word 0x400e0e00
+
+

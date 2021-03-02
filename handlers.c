@@ -2,6 +2,11 @@
 
 #include "stdio_serial.h"
 
+
+// TODO:
+// - disable cyc cnt
+// - turn off seq signal
+
 void our_eh(void)
 {
 	puts("something bad happened\r");

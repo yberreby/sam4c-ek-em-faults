@@ -22,8 +22,6 @@
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOA, 1)
 
 
-
-
 /**
  *  Configure UART console.
  */
@@ -56,13 +54,6 @@ void run_test_seq(void);
 void please_hardfault(void);
 
 
-// 0 - 1 - 0 signal.
-void trigger_pulse_generator() {
-	ioport_set_pin_level(TRIGGER_PIN, false);
-	ioport_set_pin_level(TRIGGER_PIN, true);
-	ioport_set_pin_level(TRIGGER_PIN, false);
-}
-
 void enable_cycle_counter() {
   // TODO
 }
@@ -92,7 +83,6 @@ int main(void)
 	//cpu_irq_disable();
 	//cpu_irq_enable();
 
-
 	//irq_initialize_vectors();
 
 
@@ -114,10 +104,24 @@ int main(void)
 
 	// asm ("nop");
 	// while (1) {
-	// 	ioport_set_pin_level(TRIGGER_PIN, true);
-	// 	ioport_set_pin_level(TRIGGER_PIN, false);
+	// 	ioport_set_pin_level(STATUS_PIN, true);
+	// 	ioport_set_pin_level(STATUS_PIN, false);
+	// 	//ioport_set_pin_level(PIOB_PIN, true);
+	// 	//ioport_set_pin_level(STATUS_PIN, true);
+    //     // asm ("nop");
+    //     // asm ("nop");
+    //     // asm ("nop");
+	// 	// ioport_set_pin_level(TRIGGER_PIN, true);
+	// 	// ioport_set_pin_level(TRIGGER_PIN, false);
+    //     // asm ("nop");
+    //     // asm ("nop");
+    //     // asm ("nop");
+	// 	// ioport_set_pin_level(STATUS_PIN, false);
+	// 	// ioport_set_pin_level(PIOB_PIN, false);
 	// }
 	// asm ("nop");
+    // //
+    // while (1);
 
 
 	//please_hardfault();
