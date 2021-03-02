@@ -68,3 +68,7 @@ custom_clean:
 
 pretty:
 	uncrustify --replace --no-backup -c - *.c include/*.h
+
+# TODO: udev / perms
+openocd:
+	openocd -f interface/jlink.cfg -c "transport select swd" -f target/at91sam4cXXX.cfg
