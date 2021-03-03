@@ -9,7 +9,19 @@
 
 run_test_seq:
   bl initialize_registers
-  //bl enable_cycle_counter
+
+  //
+  // DWT_CTRL setup
+  //
+
+  ldr r12, =DWT_CTRL
+
+  // Constant corresponding to setting the DWT_CTRL_CYCCNTENA bit.
+  mov r11, #1
+  str r11, [r12]
+
+
+  // End DWT_CTRL setup.
 
   //
   // Load base address for PIOB registers into R10.
@@ -41,7 +53,18 @@ run_test_seq:
   str  R12,[R10, #52]
 
 
-  //bl disable_cycle_counter
+
+  //
+  // Tear down DWT_CTRL
+  // - Disable cycle counter
+  //
+
+  ldr r12, =DWT_CTRL
+  mov r11, #0
+  str r11, [r12]
+
+  // End DWT_CTRL teardown.
+
   b stop
 
 

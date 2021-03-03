@@ -20,4 +20,4 @@ const17: .word                0x11111118
 piob_output_base:
  .word 0x400e1000
 
-
+.set DWT_CTRL, 0xE0001000

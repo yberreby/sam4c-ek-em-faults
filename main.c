@@ -54,12 +54,16 @@ void run_test_seq(void);
 void please_hardfault(void);
 
 
-void enable_cycle_counter() {
-  // TODO
+void setup_dwt() {
+  asm("nop");
+  DWT->CTRL = DWT_CTRL_CYCCNTENA_Msk;
+  asm("nop");
 }
 
-void disable_cycle_counter() {
-  // TODO
+void teardown_dwt() {
+  asm("nop");
+  DWT->CTRL = 0;
+  asm("nop");
 }
 
 
@@ -95,21 +99,10 @@ int main(void)
     ioport_enable_pin(STATUS_PIN);
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+
+    setup_dwt();
+    teardown_dwt();
     
-
-    // asm("nop");
-    // ioport_set_pin_level(TRIGGER_PIN, true);
-    // //str	r1, [r3, #48]	; 0x30
-    // //
-    // ioport_set_pin_level(TRIGGER_PIN, false);
-    // //str	r1, [r3, #52]	; 0x34
-    // ioport_set_pin_level(STATUS_PIN, true);
-    // //str	r2, [r3, #48]	; 0x30
-    // ioport_set_pin_level(STATUS_PIN, false);
-    // //str	r2, [r3, #52]	; 0x34
-    // asm("nop");
-
-    // while (1);
 
 	// Does not return.
 	// Pure asm.
@@ -119,4 +112,3 @@ int main(void)
 }
 
 
-// TODO: set irq routine.
