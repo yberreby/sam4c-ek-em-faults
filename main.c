@@ -18,8 +18,8 @@
 	"-- "BOARD_NAME " --\r\n" \
 	"-- Compiled: "__DATE__ " "__TIME__ " --"STRING_EOL
 
-#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOA, 0)
-#define STATUS_PIN     IOPORT_CREATE_PIN(PIOA, 1)
+#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 4)
+#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 5)
 
 
 /**
@@ -62,29 +62,21 @@ void disable_cycle_counter() {
   // TODO
 }
 
-void signal_seq_start() {
-	ioport_set_pin_level(STATUS_PIN, true);
-}
 
-void signal_seq_end() {
-	ioport_set_pin_level(STATUS_PIN, false);
-}
-
-
-static volatile int *divisor = 0;
 int main(void)
 {
 	/* Initialize the SAM system */
 	sysclk_init();
 	board_init();
-	ioport_init();
+    ioport_init();
+
 
 	/* Enable/Disable interrupts globally */
 	//cpu_irq_disable();
 	//cpu_irq_enable();
 
+    // Not sure when this one would be needed.
 	//irq_initialize_vectors();
-
 
 	/* Disable cache controller for core 0 */
 	cmcc_disable(CMCC0);
@@ -99,29 +91,46 @@ int main(void)
 	print_clk_info();
 
 	/* Set up output pins */
+    ioport_enable_pin(TRIGGER_PIN);
+    ioport_enable_pin(STATUS_PIN);
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+    
+    //pmc_enable_periph_clk(ID_PIOB);
 
-	// asm ("nop");
-	// while (1) {
-	// 	ioport_set_pin_level(STATUS_PIN, true);
-	// 	ioport_set_pin_level(STATUS_PIN, false);
-	// 	//ioport_set_pin_level(PIOB_PIN, true);
-	// 	//ioport_set_pin_level(STATUS_PIN, true);
-    //     // asm ("nop");
-    //     // asm ("nop");
-    //     // asm ("nop");
-	// 	// ioport_set_pin_level(TRIGGER_PIN, true);
-	// 	// ioport_set_pin_level(TRIGGER_PIN, false);
-    //     // asm ("nop");
-    //     // asm ("nop");
-    //     // asm ("nop");
-	// 	// ioport_set_pin_level(STATUS_PIN, false);
-	// 	// ioport_set_pin_level(PIOB_PIN, false);
-	// }
-	// asm ("nop");
-    // //
-    // while (1);
+    
+//    pio_set_output(
+//        PIOB,
+//        PIO_PB0,
+//        HIGH,
+//        DISABLE,
+//        DISABLE
+//        );
+//
+
+
+	asm ("nop");
+	while (1) {
+		ioport_set_pin_level(TRIGGER_PIN, true);
+		ioport_set_pin_level(TRIGGER_PIN, false);
+		//pio_set_pin_high(PIO_PB0);
+		//pio_set_pin_low(PIO_PB1);
+		//ioport_set_pin_level(PIOB_PIN, true);
+		ioport_set_pin_level(STATUS_PIN, true);
+		ioport_set_pin_level(STATUS_PIN, false);
+        // asm ("nop");
+        // asm ("nop");
+        // asm ("nop");
+		// ioport_set_pin_level(TRIGGER_PIN, true);
+		// ioport_set_pin_level(TRIGGER_PIN, false);
+        // asm ("nop");
+        // asm ("nop");
+        // asm ("nop");
+		// ioport_set_pin_level(PIOB_PIN, false);
+	}
+	asm ("nop");
+    //
+    while (1);
 
 
 	//please_hardfault();
