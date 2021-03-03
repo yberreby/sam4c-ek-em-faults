@@ -96,44 +96,20 @@ int main(void)
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
     
-    //pmc_enable_periph_clk(ID_PIOB);
 
-    
-//    pio_set_output(
-//        PIOB,
-//        PIO_PB0,
-//        HIGH,
-//        DISABLE,
-//        DISABLE
-//        );
-//
+    // asm("nop");
+    // ioport_set_pin_level(TRIGGER_PIN, true);
+    // //str	r1, [r3, #48]	; 0x30
+    // //
+    // ioport_set_pin_level(TRIGGER_PIN, false);
+    // //str	r1, [r3, #52]	; 0x34
+    // ioport_set_pin_level(STATUS_PIN, true);
+    // //str	r2, [r3, #48]	; 0x30
+    // ioport_set_pin_level(STATUS_PIN, false);
+    // //str	r2, [r3, #52]	; 0x34
+    // asm("nop");
 
-
-	asm ("nop");
-	while (1) {
-		ioport_set_pin_level(TRIGGER_PIN, true);
-		ioport_set_pin_level(TRIGGER_PIN, false);
-		//pio_set_pin_high(PIO_PB0);
-		//pio_set_pin_low(PIO_PB1);
-		//ioport_set_pin_level(PIOB_PIN, true);
-		ioport_set_pin_level(STATUS_PIN, true);
-		ioport_set_pin_level(STATUS_PIN, false);
-        // asm ("nop");
-        // asm ("nop");
-        // asm ("nop");
-		// ioport_set_pin_level(TRIGGER_PIN, true);
-		// ioport_set_pin_level(TRIGGER_PIN, false);
-        // asm ("nop");
-        // asm ("nop");
-        // asm ("nop");
-		// ioport_set_pin_level(PIOB_PIN, false);
-	}
-	asm ("nop");
-    //
-    while (1);
-
-
-	//please_hardfault();
+    // while (1);
 
 	// Does not return.
 	// Pure asm.

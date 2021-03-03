@@ -11,26 +11,35 @@ run_test_seq:
   bl initialize_registers
   //bl enable_cycle_counter
 
-  // Load base address for PIOA registers into R11.
-  ldr  R10,=pioa_output_base
-  ldr  R11,[R10]
+  //
+  // Load base address for PIOB registers into R10.
+  //
+  ldr  R10,=piob_output_base
+  ldr  R10,[R10]
 
-  // We'll use pin 0.
-  movs R12, #1
-  movs R10, #2
 
+  // Pulse trigger pin: PB4
+  movs R11, #16
+
+  // Status pin:  PB5
+  movs R12, #32
+
+
+  //
   // 0 - 1 - 0 pulse trigger.
-  str  R12,[R11, #52]
-  str  R12,[R11, #48]
-  str  R12,[R11, #52]
+  //
+  str  R11,[R10, #52]
+  str  R11,[R10, #48]
+  str  R11,[R10, #52]
 
   // Sequence start.
-  str  R10,[R11, #48]
+  str  R12,[R10, #48]
 
   // bl run_attacked_code
 
   // Sequence end.
-  str  R10,[R11, #52]
+  str  R12,[R10, #52]
+
 
   //bl disable_cycle_counter
   b stop
