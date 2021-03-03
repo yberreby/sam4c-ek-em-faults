@@ -10,49 +10,30 @@
 run_test_seq:
   bl initialize_registers
   //bl enable_cycle_counter
-  bl trigger_pulse_generator
-  bl signal_seq_start
-  //bl run_attacked_code
-  bl signal_seq_end
-  // TODO: compile then disassemble to choose registers
-  // use r10, r11, r12 for misc GPIO ops
+
+  // Load base address for PIOA registers into R11.
+  ldr  R10,=pioa_output_base
+  ldr  R11,[R10]
+
+  // We'll use pin 0.
+  movs R12, #1
+  movs R10, #2
+
+  // 0 - 1 - 0 pulse trigger.
+  str  R12,[R11, #52]
+  str  R12,[R11, #48]
+  str  R12,[R11, #52]
+
+  // Sequence start.
+  str  R10,[R11, #48]
+
+  // bl run_attacked_code
+
+  // Sequence end.
+  str  R10,[R11, #52]
+
   //bl disable_cycle_counter
   b stop
-
-
-trigger_pulse_generator:
-  ldr  R10,=pioa_output_base
-  ldr  R11,[R10]  
-  movs R12, #1
-  // 0
-  str  R12,[R11, #52]
-  // 1
-  str  R12,[R11, #48]
-  // 0
-  str  R12,[R11, #52]
-  bx lr
-  
-
-signal_seq_start:
-  ldr  R10,=pioa_output_base
-  ldr  R11,[R10]  
-  movs R12, #2
-  // 1 - set reg
-  str  R12,[R11, #48]
-  bx lr
-
-
-signal_seq_end:
-  ldr  R10,=pioa_output_base
-  ldr  R11,[R10]  
-  movs R12, #2
-  // 0 - clear reg
-  str  R12,[R11, #52]
-  bx lr
-  
-
-  
-
 
 
 initialize_registers:
