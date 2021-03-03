@@ -155,3 +155,13 @@ bypass mode is to connect an external oscillator
 
 
 5.3.2: Core 0 Cache Controller (CMCC0) is enabled (only used if the application link address for the Core 0 is 0x11000000)
+
+
+
+---
+
+TODO: set wait states
+
+TODO: find out how to use external oscillator
+
+
