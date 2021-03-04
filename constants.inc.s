@@ -21,3 +21,4 @@ piob_output_base:
  .word 0x400e1000
 
 .set DWT_CTRL, 0xE0001000
+.set DWT_CYCCNT, DWT_CTRL+0x4

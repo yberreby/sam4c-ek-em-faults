@@ -142,16 +142,10 @@ high-drive: more current, such as for LEDs
 TODO: let's drive an LED :p
 
 TODO: let's drive clock directly to an output
+  think I found a pin for that... see system functions on pinout again
 
-TODO: use ASM for output
-
-
-where's the ground?
-
-maybe redo shit with Arduino
 
 bypass mode is to connect an external oscillator
-
 
 
 5.3.2: Core 0 Cache Controller (CMCC0) is enabled (only used if the application link address for the Core 0 is 0x11000000)

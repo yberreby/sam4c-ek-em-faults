@@ -21,6 +21,11 @@ run_test_seq:
   str r11, [r12]
 
 
+  // Clear DWT_CYCCNT.
+  ldr r12, =DWT_CYCCNT
+  mov r11, #0
+  str r11, [r12]
+
   // End DWT_CTRL setup.
 
   //
