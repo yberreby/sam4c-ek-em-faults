@@ -14,17 +14,35 @@ run_test_seq:
   // DWT_CTRL setup
   //
 
+  // Store address of DWT_CTRL in r12,
+  // and its initial value in r10.
   ldr r12, =DWT_CTRL
+  ldr r10, [r12]
 
-  // Constant corresponding to setting the DWT_CTRL_CYCCNTENA bit.
-  mov r11, #1
-  str r11, [r12]
+  //
+  // Disable CYCCNT.
+  //
+
+  // Compute new value of DWT_CTRL, store it in r10.
+  ldr r11, =DWT_CTRL_CYCCNTDSB
+  and r10, r10, r11
+
+  // Store it back.
+  str r10, [r12]
 
 
   // Clear DWT_CYCCNT.
   ldr r12, =DWT_CYCCNT
   mov r11, #0
   str r11, [r12]
+
+
+  // Constant corresponding to setting the DWT_CTRL_CYCCNTENA bit.
+  ldr r12, =DWT_CTRL
+  ldr r11, =DWT_CTRL_CYCCNTENA
+  orr r10, r10, r11
+  str r10, [r12]
+
 
   // End DWT_CTRL setup.
 
@@ -64,9 +82,35 @@ run_test_seq:
   // - Disable cycle counter
   //
 
+  // Store address of DWT_CTRL in r12,
+  // and its initial value in r10.
   ldr r12, =DWT_CTRL
+  ldr r10, [r12]
+
+  //
+  // Disable CYCCNT.
+  //
+
+  // Compute new value of DWT_CTRL, store it in r10.
+  ldr r11, =DWT_CTRL_CYCCNTDSB
+  and r10, r10, r11
+
+  // Store it back.
+  str r10, [r12]
+
+
+  // Clear DWT_CYCCNT.
+  ldr r12, =DWT_CYCCNT
   mov r11, #0
   str r11, [r12]
+
+fml:
+  nop
+  nop
+  nop
+  nop
+  nop
+
 
   // End DWT_CTRL teardown.
 

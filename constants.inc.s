@@ -22,3 +22,7 @@ piob_output_base:
 
 .set DWT_CTRL, 0xE0001000
 .set DWT_CYCCNT, DWT_CTRL+0x4
+
+
+.set DWT_CTRL_CYCCNTENA, 0x1
+.set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE

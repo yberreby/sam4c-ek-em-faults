@@ -67,6 +67,8 @@ void teardown_dwt() {
 }
 
 
+// Intrinsics: https://www.keil.com/pack/doc/CMSIS/Core/html/group__intrinsic__CPU__gr.html#gacb2a8ca6eae1ba4b31161578b720c199
+
 int main(void)
 {
 	/* Initialize the SAM system */
@@ -100,8 +102,27 @@ int main(void)
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
 
+    // Enable debug features.
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+
     setup_dwt();
     teardown_dwt();
+
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
     
 
 	// Does not return.
