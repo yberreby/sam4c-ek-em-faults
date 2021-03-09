@@ -67,6 +67,9 @@ void teardown_dwt() {
 }
 
 
+volatile int foo = &DWT->CTRL;
+
+
 // Intrinsics: https://www.keil.com/pack/doc/CMSIS/Core/html/group__intrinsic__CPU__gr.html#gacb2a8ca6eae1ba4b31161578b720c199
 
 int main(void)
@@ -102,27 +105,27 @@ int main(void)
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
 
-    // Enable debug features.
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    // // Enable debug features.
+    // CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
-    setup_dwt();
-    teardown_dwt();
+    // setup_dwt();
+    // teardown_dwt();
 
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
     
 
 	// Does not return.

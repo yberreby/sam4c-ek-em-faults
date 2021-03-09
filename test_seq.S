@@ -99,19 +99,6 @@ run_test_seq:
   str r10, [r12]
 
 
-  // Clear DWT_CYCCNT.
-  ldr r12, =DWT_CYCCNT
-  mov r11, #0
-  str r11, [r12]
-
-fml:
-  nop
-  nop
-  nop
-  nop
-  nop
-
-
   // End DWT_CTRL teardown.
 
   b stop
