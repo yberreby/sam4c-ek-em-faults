@@ -60,20 +60,24 @@ run_test_seq:
   movs R12, #64
 
 
+trig:
   //
   // 0 - 1 - 0 pulse trigger.
   //
-  str  R11,[R10, #52]
-  str  R11,[R10, #48]
-  str  R11,[R10, #52]
+  str.w  R11,[R10, #52]
+  str.w  R11,[R10, #48]
+  str.w  R11,[R10, #52]
+
+  nop.w
+  nop.w
 
   // Sequence start.
-  str  R12,[R10, #48]
+  str.w  R12,[R10, #48]
 
-  // bl run_attacked_code
+  bl run_attacked_code
 
   // Sequence end.
-  str  R12,[R10, #52]
+  str.w  R12,[R10, #52]
 
 
 
@@ -157,10 +161,6 @@ run_attacked_code:
   nop.w
   nop.w
   nop.w
-  nop.w
-  nop.w
-  nop.w
-  nop.w
   add.w R1,R1, #0x1
   add.w R1,R1, #0x2
   add.w R1,R1, #0x4
@@ -169,10 +169,6 @@ run_attacked_code:
   add.w R8,R8, #0x2
   add.w R8,R8, #0x4
   add.w R8,R8, #0x8
-  nop.w
-  nop.w
-  nop.w
-  nop.w
   nop.w
   nop.w
   nop.w

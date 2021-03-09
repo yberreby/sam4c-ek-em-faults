@@ -42,9 +42,9 @@
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_SLCK_RC
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_SLCK_XTAL
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_SLCK_BYPASS
-#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_4M_RC
+//#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_4M_RC
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_8M_RC
-//#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_12M_RC
+#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_12M_RC
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_XTAL
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_MAINCK_BYPASS
 //define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_PLLACK
@@ -69,8 +69,8 @@
 // ===== PLL1 (B) Options   (Fpll = (Fclk * PLL_mul) / PLL_div)
 // Use mul and div effective values here.
 #define CONFIG_PLL1_SOURCE          PLLB_SRC_MAINCK_XTAL
-#define CONFIG_PLL1_MUL             (240000000UL / BOARD_FREQ_MAINCK_XTAL)
-#define CONFIG_PLL1_DIV             2
+#define CONFIG_PLL1_MUL             1
+#define CONFIG_PLL1_DIV             1
 // [conf_clock_pll1_settings]
 
 // ===== Coprocessor System Clock (CPMCK) Options

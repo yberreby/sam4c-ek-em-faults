@@ -71,11 +71,18 @@ volatile int foo = &DWT->CTRL;
 
 
 // Intrinsics: https://www.keil.com/pack/doc/CMSIS/Core/html/group__intrinsic__CPU__gr.html#gacb2a8ca6eae1ba4b31161578b720c199
+//
+
+volatile int hz;
+volatile int hz2;
 
 int main(void)
 {
 	/* Initialize the SAM system */
 	sysclk_init();
+
+    //pmc_switch_mck_to_mainck();
+
 	board_init();
     ioport_init();
 
@@ -100,12 +107,13 @@ int main(void)
 	print_clk_info();
 
 	/* Set up output pins */
-    //ioport_set_pin_mode(TRIGGER_PIN, IOPORT_MODE_PULLDOWN);
-    //ioport_set_pin_mode(STATUS_PIN, IOPORT_MODE_PULLDOWN);
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
     ioport_enable_pin(TRIGGER_PIN);
     ioport_enable_pin(STATUS_PIN);
+
+    hz = sysclk_get_cpu_hz();
+    hz2 = sysclk_get_peripheral_hz();
 
 
     // ioport_set_pin_level(TRIGGER_PIN, 0);
