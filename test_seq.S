@@ -53,11 +53,11 @@ run_test_seq:
   ldr  R10,[R10]
 
 
-  // Pulse trigger pin: PB4
-  movs R11, #16
+  // Pulse trigger pin: PB12
+  movs R11, #4096
 
-  // Status pin:  PB5
-  movs R12, #32
+  // Status pin:  PB6
+  movs R12, #64
 
 
   //

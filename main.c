@@ -18,8 +18,8 @@
 	"-- "BOARD_NAME " --\r\n" \
 	"-- Compiled: "__DATE__ " "__TIME__ " --"STRING_EOL
 
-#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 4)
-#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 5)
+#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 12)
+#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
 
 
 /**
@@ -100,11 +100,21 @@ int main(void)
 	print_clk_info();
 
 	/* Set up output pins */
-    ioport_enable_pin(TRIGGER_PIN);
-    ioport_enable_pin(STATUS_PIN);
+    //ioport_set_pin_mode(TRIGGER_PIN, IOPORT_MODE_PULLDOWN);
+    //ioport_set_pin_mode(STATUS_PIN, IOPORT_MODE_PULLDOWN);
 	ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+    ioport_enable_pin(TRIGGER_PIN);
+    ioport_enable_pin(STATUS_PIN);
 
+
+    // ioport_set_pin_level(TRIGGER_PIN, 0);
+    // ioport_set_pin_level(TRIGGER_PIN, 1);
+    // ioport_set_pin_level(TRIGGER_PIN, 0);
+    // ioport_set_pin_level(STATUS_PIN, 1);
+    // ioport_set_pin_level(STATUS_PIN, 0);
+
+    // while (1);
     // // Enable debug features.
     // CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
