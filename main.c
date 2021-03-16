@@ -7,6 +7,7 @@
 
 #include "asf.h"
 
+#include "efc.h"
 #include "stdlib.h"
 #include "sysclk.h"
 #include "cmcc.h"
@@ -96,7 +97,7 @@ int main(void)
 	//irq_initialize_vectors();
 
 	/* Disable cache controller for core 0 */
-	cmcc_disable(CMCC0);
+	//cmcc_disable(CMCC0);
 
 	/* Initialize the console uart, for debug output */
 	configure_console();
@@ -115,6 +116,9 @@ int main(void)
 
     hz = sysclk_get_cpu_hz();
     hz2 = sysclk_get_peripheral_hz();
+
+    // FWS = cycles -1
+    efc_set_wait_state(EFC, 6);
 
 
     // ioport_set_pin_level(TRIGGER_PIN, 0);
