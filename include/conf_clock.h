@@ -52,9 +52,9 @@
 
 
 // ===== System Clock (MCK) Prescaler Options   (Fmck = Fsys / (SYSCLK_PRES))
-//#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_1
+#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_1
 //#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_2
-#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_4
+//#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_4
 //#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_8
 //#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_16
 //#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_32

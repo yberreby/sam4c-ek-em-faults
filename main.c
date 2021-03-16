@@ -10,6 +10,7 @@
 #include "efc.h"
 #include "stdlib.h"
 #include "sysclk.h"
+#include "genclk.h"
 #include "cmcc.h"
 
 #include "ioport.h"
@@ -22,6 +23,9 @@
 
 #define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 12)
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
+
+
+#define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
 
 
 /**
@@ -78,17 +82,42 @@ volatile int foo = &DWT->CTRL;
 volatile int hz;
 volatile int hz2;
 
-int main(void)
-{
+int main(void) {
 	/* Initialize the SAM system */
     // This will also enable the coprocessor clock according to the
-    // corresponding macro(s).
+    // corresponding macro(s), as well as the SRAM1 and SRAM2 clocks.
 	sysclk_init();
 
     //pmc_switch_mck_to_mainck();
 
 	board_init();
+
+    // Very important to copy the code for the coprocessor before deasserting
+    // its reset, or else it will run gibberish!
+
+    // rstc_deassert_reset_of_coprocessor(
+    //     RSTC,
+    //     // not sure we need the second one
+    //     RSTC_CPMR_CPROCEN //| RSTC_CPMR_CPEREN
+    // );
+
+
     ioport_init();
+
+
+
+    //genclk_config_set_source();
+
+    genclk_enable_config(
+        GENCLK_PCK_1,
+        GENCLK_PCK_SRC_MAINCK_XTAL,
+        GENCLK_PCK_PRES_1
+    );
+
+    ioport_set_pin_mode(CLOCK_PIN, IOPORT_MODE_MUX_A);
+    ioport_disable_pin(CLOCK_PIN);
+
+
 
 
 	/* Enable/Disable interrupts globally */
