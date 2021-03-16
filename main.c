@@ -110,7 +110,8 @@ int main(void) {
 
     genclk_enable_config(
         GENCLK_PCK_1,
-        GENCLK_PCK_SRC_MAINCK_XTAL,
+        //GENCLK_PCK_SRC_MAINCK_XTAL,
+        GENCLK_PCK_SRC_PLLBCK,
         GENCLK_PCK_PRES_1
     );
 
@@ -128,7 +129,7 @@ int main(void) {
 	//irq_initialize_vectors();
 
 	/* Disable cache controller for core 0 */
-	//cmcc_disable(CMCC0);
+	cmcc_disable(CMCC0);
 
 	/* Initialize the console uart, for debug output */
 	configure_console();
