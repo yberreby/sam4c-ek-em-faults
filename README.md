@@ -159,3 +159,28 @@ TODO: set wait states
 TODO: find out how to use external oscillator
 
 
+
+8.1.5.2
+  After reset, the Sub-system 1 is hold in reset and with no clock. It is up to
+  the Master Application (Core 0Application) running on the Core 0 to enable the
+  Sub-system 1. Then the application code can be downloaded intothe CM4P1 Boot
+  memory (SRAM1), and CM4P0 can afterwards de-assert the CM4P1 reset line. The
+  secondaryprocessor (CM4P1) always identifies SRAM1 as “Boot memory”
+
+
+CM4P0/CM4P1: the Cortex M4 cores
+
+8.1.1 Internal SRAM
+  SRAM1 on Matrix1 is up to 32 Kbytes. It is mainly dedicated to be the code
+  region of the CM4P1 processor but canbe identified and used by Matrix0. SRAM2 on
+  Matrix1 is up to 16 Kbytes. It is mainly dedicated to be the data region of the
+  CM4P1 processor or otherperipherals on Matrix1 but can be identified and used by
+  masters on Matrix0.
+
+
+8.1.4.1 Flash overview
+  The Flash memory can be accessedthrough the Cache Memory Controller (CMCC0) of
+  the CM4P0 and can also be identified by the Cortex-M4F Core1 (CM4P1) through its
+  Cache Memory Controller (CMCC1).
+
+
