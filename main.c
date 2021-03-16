@@ -1,9 +1,6 @@
 // XXX: track down the asf.h include
 // dep graph?
 
-
-#define BOARD_FREQ_MAINCK_XTAL 20000000UL
-
 #include "conf_clock.h"
 #include "conf_board.h"
 
