@@ -81,6 +81,8 @@ volatile int hz2;
 int main(void)
 {
 	/* Initialize the SAM system */
+    // This will also enable the coprocessor clock according to the
+    // corresponding macro(s).
 	sysclk_init();
 
     //pmc_switch_mck_to_mainck();
