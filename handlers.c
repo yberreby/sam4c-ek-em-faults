@@ -1,15 +1,9 @@
-// TODO: use macros
-
-#include "stdio_serial.h"
-
-
 // TODO:
 // - disable cyc cnt
 // - turn off seq signal
 
 void our_eh(void)
 {
-    puts("something bad happened\r");
     while(1);
 }
 
@@ -41,6 +35,3 @@ void HardFault_Handler(void) {
 void BusFault_Handler(void) {
     our_eh();
 }
-
-
-
