@@ -45,7 +45,7 @@ int main(void) {
         GENCLK_PCK_1,
         GENCLK_PCK_SRC_PLLBCK,
         GENCLK_PCK_PRES_1
-    );
+        );
 
     ioport_set_pin_mode(CLOCK_PIN, IOPORT_MODE_MUX_A);
 
@@ -105,16 +105,16 @@ int main(void) {
 
 /*
 
-void setup_dwt() {
-  asm("nop");
-  DWT->CTRL = DWT_CTRL_CYCCNTENA_Msk;
-  asm("nop");
-}
+   void setup_dwt() {
+   asm("nop");
+   DWT->CTRL = DWT_CTRL_CYCCNTENA_Msk;
+   asm("nop");
+   }
 
-void teardown_dwt() {
-  asm("nop");
-  DWT->CTRL = 0;
-  asm("nop");
-}
+   void teardown_dwt() {
+   asm("nop");
+   DWT->CTRL = 0;
+   asm("nop");
+   }
 
-*/
+ */

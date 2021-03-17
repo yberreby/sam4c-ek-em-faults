@@ -19,7 +19,7 @@ custom_clean:
 	rm -rf emfi_flash*
 
 pretty:
-	uncrustify --replace --no-backup -c - *.c include/*.h
+	uncrustify --replace --no-backup -c uncrustify.cfg *.c include/*.h
 
 openocd:
 	openocd -f interface/jlink.cfg -c "transport select swd" -f target/at91sam4cXXX.cfg
