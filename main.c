@@ -1,20 +1,27 @@
-// XXX: track down the asf.h include
-// dep graph?
-
 #include "conf_clock.h"
 #include "conf_board.h"
 
-
-#include "asf.h"
-
-#include "efc.h"
-#include "stdlib.h"
-#include "sysclk.h"
-#include "genclk.h"
-#include "cmcc.h"
-
-#include "ioport.h"
-#include "stdio_serial.h"
+#include <board.h>
+#include <cmcc.h>
+#include <compiler.h>
+#include <efc.h>
+#include <genclk.h>
+#include <interrupt.h>
+#include <ioport.h>
+#include <ioport.h>
+#include <led.h>
+#include <parts.h>
+#include <pio.h>
+#include <pmc.h>
+#include <serial.h>
+#include <sleep.h>
+#include <status_codes.h>
+#include <stdio_serial.h>
+#include <stdlib.h>
+#include <sysclk.h>
+#include <tc.h>
+#include <uart.h>
+#include <usart.h>
 
 #define STRING_EOL    "\r"
 #define STRING_HEADER "-- EMFI --\r\n" \
@@ -23,8 +30,6 @@
 
 #define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 12)
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
-
-
 #define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
 
 
