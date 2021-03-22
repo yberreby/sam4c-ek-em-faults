@@ -36,7 +36,8 @@ CSRCS = \
 # List of assembler source files.
 # Do note that ONLY the ".S" extension, with a capital S, will work.
 ASSRCS = \
-	   ../common/src/test_seq.S
+	../common/src/test_seq.S                                \
+       ../core0/core1_image.S
 
 # List of include paths.
 INC_PATH = \

@@ -11,9 +11,11 @@
 #include <parts.h>
 #include <pio.h>
 #include <pmc.h>
+#include <rstc.h>
 #include <sleep.h>
 #include <status_codes.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sysclk.h>
 #include <tc.h>
 
@@ -25,6 +27,18 @@
 volatile int cpu_hz;
 volatile int periph_hz;
 
+extern uint8_t core1_image_start;
+extern uint8_t core1_image_end;
+
+static void copy_core1_image_into_sram1(void) {
+	memcpy(
+        (char *)IRAM1_ADDR,
+        (char *)&core1_image_start,
+		(int)&core1_image_end - (int)&core1_image_start
+    );
+}
+
+
 int main(void) {
     // Set up the clocks.
     // This will also enable the coprocessor clock according to the
@@ -34,8 +48,12 @@ int main(void) {
     // Will initialize ioport, among other things.
     board_init();
 
-    /* Disable cache controller for core 0 */
+    // Disable cache controller for both cores.
     cmcc_disable(CMCC0);
+    cmcc_disable(CMCC1);
+
+	copy_core1_image_into_sram1();
+	rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
 
     // FWS = cycles -1
     efc_set_wait_state(EFC, 6);
