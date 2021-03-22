@@ -40,11 +40,6 @@ INC_PATH = \
        common/utils                                       \
        sam/boards                                         \
        sam/boards/sam4c_ek                                \
-       sam/drivers/ipc                                    \
-       sam/drivers/ipc/example/sam4c16c_sam4c_ek/conf_src/common \
-       sam/drivers/ipc/example/sam4c16c_sam4c_ek/conf_src/core1 \
-       sam/drivers/ipc/example/sam4c16c_sam4c_ek/project_core1 \
-       sam/drivers/ipc/example/src_core1                  \
        sam/drivers/pmc                                    \
        sam/drivers/usart                                  \
        sam/utils                                          \
