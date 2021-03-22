@@ -31,11 +31,11 @@ extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
 
 static void copy_core1_image_into_sram1(void) {
-	memcpy(
+    memcpy(
         (char *)IRAM1_ADDR,
         (char *)&core1_image_start,
-		(int)&core1_image_end - (int)&core1_image_start
-    );
+        (int)&core1_image_end - (int)&core1_image_start
+        );
 }
 
 
@@ -52,8 +52,8 @@ int main(void) {
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
 
-	copy_core1_image_into_sram1();
-	rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
+    copy_core1_image_into_sram1();
+    rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
 
     // FWS = cycles -1
     efc_set_wait_state(EFC, 6);
