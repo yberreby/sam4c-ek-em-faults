@@ -32,7 +32,7 @@ ASSRCS =
 
 # List of include paths.
 INC_PATH = \
-       ../core1/main.c                 						  \
+       ../common/include \
        common/boards                                      \
        common/services/clock                              \
        common/services/delay                              \
