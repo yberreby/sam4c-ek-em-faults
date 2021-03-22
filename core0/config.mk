@@ -1,59 +1,20 @@
-#
-# Copyright (c) 2011 Atmel Corporation. All rights reserved.
-#
-# \asf_license_start
-#
-# \page License
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-# 1. Redistributions of source code must retain the above copyright notice,
-#    this list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-#
-# 3. The name of Atmel may not be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# 4. This software may only be redistributed and used in connection with an
-#    Atmel microcontroller product.
-#
-# THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
-# EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
-# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-#
-# \asf_license_stop
-#
-
 # Path to top level ASF directory relative to this project directory.
-PRJ_PATH = xdk-asf-3.49.1
+PRJ_PATH = ../xdk-asf-3.49.1
 
 # Target CPU architecture: cortex-m3, cortex-m4
 ARCH = cortex-m4
 
-# Target part: none, sam3n4 or sam4l4aa
 PART = sam4c16c:0
 
 # Application target name. Given with suffix .a for library and .elf for a
 # standalone application.
-TARGET_FLASH = emfi_flash.elf
-TARGET_SRAM = emfi_sram.elf
+TARGET_FLASH = emfi_core0_flash.elf
+TARGET_SRAM = emfi_core0_sram.elf
 
 # List of C source files.
 CSRCS = \
-       ../main.c                 						  \
-       ../handlers.c                 					  \
+       ../core0/main.c                 						  \
+       ../core0/handlers.c                 					  \
        common/services/clock/sam4c/sysclk.c               \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \
@@ -75,11 +36,11 @@ CSRCS = \
 # List of assembler source files.
 # Do note that ONLY the ".S" extension, with a capital S, will work.
 ASSRCS = \
-	   ../test_seq.S
+	   ../common/src/test_seq.S
 
 # List of include paths.
 INC_PATH = \
-	   ../include										  \
+	../common/include	                              \
        common/boards                                      \
        common/services/clock                              \
        common/services/ioport                             \
@@ -102,11 +63,6 @@ INC_PATH = \
        sam/utils/preprocessor                             \
        thirdparty/CMSIS/Include                           \
        thirdparty/CMSIS/Lib/GCC
-
-
-#       sam/applications/getting-started                   \
-#       sam/applications/getting-started/sam4c16c_sam4c_ek \
-#       sam/applications/getting-started/sam4c16c_sam4c_ek/gcc \
 
 # Additional search paths for libraries.
 LIB_PATH =  \

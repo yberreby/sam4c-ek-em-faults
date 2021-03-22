@@ -184,3 +184,12 @@ CM4P0/CM4P1: the Cortex M4 cores
   Cache Memory Controller (CMCC1).
 
 
+
+
+
+IRAM1_ADDR => where we should put the instructions
+  don't forget to disable clocks, but I think that's already done.
+
+  => just try faulting there! ez :)
+  => read docs on what happens on fault.
+
