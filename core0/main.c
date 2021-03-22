@@ -27,8 +27,6 @@
 volatile int cpu_hz;
 volatile int periph_hz;
 
-volatile int _canary;
-
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
 
