@@ -55,7 +55,6 @@ CSRCS = \
        ../main.c                 						  \
        ../handlers.c                 					  \
        common/services/clock/sam4c/sysclk.c               \
-       common/services/serial/usart_serial.c              \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \
        common/utils/stdio/write.c                         \
@@ -84,8 +83,6 @@ INC_PATH = \
        common/boards                                      \
        common/services/clock                              \
        common/services/ioport                             \
-       common/services/serial                             \
-       common/services/serial/sam_uart                    \
        common/utils                                       \
        common/utils/stdio/stdio_serial                    \
        sam/boards                                         \
