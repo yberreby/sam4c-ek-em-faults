@@ -17,10 +17,10 @@ clean:
 server:
 	JLinkGDBServer -device AT91SAM4S16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
-
-
-# pretty:
-# 	uncrustify --replace --no-backup -c uncrustify.cfg {core0,core1}/**/*.{c,h}
+pretty:
+	# The null_glob avoids erroring out when there are no .h files.
+	zsh -c "setopt null_glob; \
+	uncrustify --replace --no-backup -c uncrustify.cfg {common,core0,core1}/**/*.{c,h}"
 
 # openocd:
 # 	openocd -f interface/jlink.cfg -c "transport select swd" -f target/at91sam4cXXX.cfg
