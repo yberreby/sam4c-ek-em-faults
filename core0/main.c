@@ -52,12 +52,6 @@ int main(void) {
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
 
-    copy_core1_image_into_sram1();
-    rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
-
-
-    while (1);
-
     // FWS = cycles -1
     efc_set_wait_state(EFC, 6);
 
@@ -83,9 +77,16 @@ int main(void) {
     cpu_hz = sysclk_get_cpu_hz();
     periph_hz = sysclk_get_peripheral_hz();
 
+    // Hand off control to core1.
+    copy_core1_image_into_sram1();
+    rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
+
+    // Block.
+    while (1);
+
     // Does not return.
     // Pure asm.
-    run_test_seq();
+    // run_test_seq();
 
     // Unreachable.
     return 0;

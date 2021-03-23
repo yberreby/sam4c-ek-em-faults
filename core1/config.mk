@@ -28,7 +28,8 @@ CSRCS = \
     sam/utils/syscalls/gcc/syscalls.c
 
 # List of assembler source files.
-ASSRCS = 
+ASSRCS = \
+	../common/src/test_seq.S
 
 # List of include paths.
 INC_PATH = \
