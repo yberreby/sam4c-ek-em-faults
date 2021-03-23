@@ -23,10 +23,6 @@
 #define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
 #define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
 
-// These volatile globals are here so I can inspect from a debugger.
-volatile int cpu_hz;
-volatile int periph_hz;
-
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
 
@@ -39,22 +35,7 @@ static void copy_core1_image_into_sram1(void) {
 }
 
 
-int main(void) {
-    // Set up the clocks.
-    // This will also enable the coprocessor clock according to the
-    // corresponding macro(s), as well as the SRAM1 and SRAM2 clocks.
-    sysclk_init();
-
-    // Will initialize ioport, among other things.
-    board_init();
-
-    // Disable cache controller for both cores.
-    cmcc_disable(CMCC0);
-    cmcc_disable(CMCC1);
-
-    // FWS = cycles -1
-    efc_set_wait_state(EFC, 6);
-
+void setup_clock_pin() {
     // genclk enables us to route a clock signal to an output pin.
     genclk_enable_config(
         GENCLK_PCK_1,
@@ -66,27 +47,46 @@ int main(void) {
 
     // Disabling a pin lets a multiplexed peripheral drive it.
     ioport_disable_pin(CLOCK_PIN);
+}
 
+
+int main(void) {
+    // Set up the clocks.
+    // This will also enable the coprocessor clock according to the
+    // corresponding macro(s), as well as the SRAM1 and SRAM2 clocks.
+    sysclk_init();
+
+    // Will initialize ioport, among other things.
+    board_init();
+
+    // // Disable cache controller for both cores.
+    cmcc_disable(CMCC0);
+    cmcc_disable(CMCC1);
+
+    setup_clock_pin();
+
+    // // FWS = cycles -1
+    // efc_set_wait_state(EFC, 6);
 
     /* Set up output pins */
-    ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
-    ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
-    ioport_enable_pin(TRIGGER_PIN);
-    ioport_enable_pin(STATUS_PIN);
-
-    cpu_hz = sysclk_get_cpu_hz();
-    periph_hz = sysclk_get_peripheral_hz();
+    // ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
+    // ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+    // ioport_enable_pin(TRIGGER_PIN);
+    // ioport_enable_pin(STATUS_PIN);
 
     // Hand off control to core1.
     copy_core1_image_into_sram1();
-    rstc_deassert_reset_of_coprocessor(RSTC, RSTC_CPMR_CPROCEN);
+    rstc_deassert_reset_of_coprocessor(
+        RSTC,
+        RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
+    );
 
     // Block.
     while (1);
 
     // Does not return.
     // Pure asm.
-    // run_test_seq();
+    run_test_seq();
 
     // Unreachable.
     return 0;
