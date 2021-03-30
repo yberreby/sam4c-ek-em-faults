@@ -28,9 +28,9 @@ Il est **essentiel** d'exécuter `exec CORESIGHT_SetIndexAHBAPToUse = 1` avant
 `connect`, pour se connecter au second coeur.
 
 ```
-$ JLinkExe -device AT91SAM4C16C -speed 4000 -if swd
-SEGGER J-Link Commander V6.96 (Compiled Feb 19 2021 09:59:28)
-DLL version V6.96, compiled Feb 19 2021 09:59:12
+$ JLinkExe -device AT91SAM4C16C -speed 4000 -if swd                                                                                    ~/sam4c-ek-em-faults
+SEGGER J-Link Commander V6.86b (Compiled Oct  2 2020 17:44:51)
+DLL version V6.86b, compiled Oct  2 2020 17:44:39
 
 Connecting to J-Link via USB...O.K.
 Firmware: J-Link V9 compiled Feb  2 2021 16:34:10
@@ -38,11 +38,11 @@ Hardware version: V9.30
 S/N: 269301061
 License(s): FlashBP, GDB
 OEM: SEGGER-EDU
-VTref=3.322V
+VTref=3.324V
 
 
 Type "connect" to establish a target connection, '?' for help
-J-Link>exec CORESIGHT_SetIndexAHBAPToUse = 1;
+J-Link>exec CORESIGHT_SetIndexAHBAPToUse = 1
 J-Link>connect
 Device "ATSAM4C16C" selected.
 
@@ -58,8 +58,16 @@ AP[1]: AHB-AP ROM base: 0xE00FF000
 CPUID register: 0x410FC241. Implementer code: 0x41 (ARM)
 Found Cortex-M4 r0p1, Little endian.
 FPUnit: 6 code (BP) slots and 2 literal slots
-CoreSight components:J-Link>halt
-PC = 0000046A, CycleCnt = 035D0347
+CoreSight components:
+ROMTbl[0] @ E00FF000
+ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB00C SCS-M7
+ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 003BB002 DWT
+ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 002BB003 FPB
+ROMTbl[0][3]: E0000000, CID: B105E00D, PID: 003BB001 ITM
+ROMTbl[0][4]: E0040000, CID: B105900D, PID: 000BB9A1 TPIU
+Cortex-M4 identified.
+J-Link>halt
+PC = 0000046A, CycleCnt = 0550EB5A
 R0 = 11111111, R1 = 0001100F, R2 = 00033000, R3 = 00077000
 R4 = 000FF000, R5 = 0AA00000, R6 = 09900000, R7 = 05A00000
 R8 = 0000055F, R9 = 00000AA0, R10= 40000000, R11= FFFFFFFE
@@ -75,9 +83,8 @@ FPS12= 00000000, FPS13= 00000000, FPS14= 00000000, FPS15= 00000000
 FPS16= 00000000, FPS17= 00000000, FPS18= 00000000, FPS19= 00000000
 FPS20= 00000000, FPS21= 00000000, FPS22= 00000000, FPS23= 00000000
 FPS24= 00000000, FPS25= 00000000, FPS26= 00000000, FPS27= 00000000
-FPS28= 00000000, FPS29= 00000000, FPS30= 00000000, FPS31= 00000000E00D, PID: 003BB001 ITM
-ROMTbl[0][4]: E0040000, CID: B105900D, PID: 000BB9A1 TPIU
-Cortex-M4 identified.
+FPS28= 00000000, FPS29= 00000000, FPS30= 00000000, FPS31= 00000000
+FPSCR= 00000000
 J-Link>
 ```
 
