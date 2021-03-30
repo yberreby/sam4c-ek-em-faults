@@ -193,3 +193,15 @@ IRAM1_ADDR => where we should put the instructions
   => just try faulting there! ez :)
   => read docs on what happens on fault.
 
+
+asf version: xdk-asf-3.49.1
+
+
+
+CPBMCK != CPBHCLK
+
+
+
+- must manually synchronize between cores
+- apsel is not what we want
+- 

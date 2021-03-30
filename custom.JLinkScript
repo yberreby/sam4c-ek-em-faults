@@ -1,0 +1,6 @@
+
+int ConfigTargetSettings (void) {
+Report("Test");
+CORESIGHT_SetIndexAHBAPToUse = 1;
+return 0;
+}

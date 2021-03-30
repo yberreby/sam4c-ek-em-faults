@@ -13,9 +13,11 @@ clean:
 	make -C core1 clean
 	make -C core0 clean
 
+server0:
+	JLinkGDBServer -device AT91SAM4C16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
-server:
-	JLinkGDBServer -device AT91SAM4S16C -endian little -if SWD -speed auto -ir -LocalhostOnly
+server1:
+	JLinkGDBServer -device AT91SAM4C16C -scriptfile SAM4C.JLinkScript -port 2345 -noreset
 
 pretty:
 	# The null_glob avoids erroring out when there are no .h files.

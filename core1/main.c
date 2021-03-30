@@ -25,10 +25,11 @@
 
 
 int main(void) {
-    int volatile * const dst = (int *)0x201000AA;
-    *dst = 0xBB;
+    //while (1);
+    // int volatile * const dst = (int *)0x20100A0A;
+    // *dst = 0xAA;
 
-    while (1);
+    // while (1);
 
     /* Set up output pins */
     ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
@@ -36,30 +37,9 @@ int main(void) {
     ioport_enable_pin(TRIGGER_PIN);
     ioport_enable_pin(STATUS_PIN);
 
-    ioport_set_pin_level(TRIGGER_PIN, false);
-    ioport_set_pin_level(STATUS_PIN, false);
-
-    ioport_set_pin_level(TRIGGER_PIN, true);
-    ioport_set_pin_level(TRIGGER_PIN, false);
-    ioport_set_pin_level(TRIGGER_PIN, true);
-    ioport_set_pin_level(TRIGGER_PIN, false);
-    ioport_set_pin_level(TRIGGER_PIN, true);
-
-
-    ioport_set_pin_level(STATUS_PIN, true);
-    ioport_set_pin_level(STATUS_PIN, false);
-    ioport_set_pin_level(STATUS_PIN, true);
-    ioport_set_pin_level(STATUS_PIN, false);
-    ioport_set_pin_level(STATUS_PIN, true);
-
-
-
-
-    while (1);
-
     // Does not return.
     // Pure asm.
-    //run_test_seq();
+    run_test_seq();
 
     // Unreachable.
     return 0;

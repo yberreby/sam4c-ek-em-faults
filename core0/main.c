@@ -86,7 +86,7 @@ int main(void) {
 
     // Does not return.
     // Pure asm.
-    run_test_seq();
+    // run_test_seq();
 
     // Unreachable.
     return 0;
