@@ -1,207 +1,84 @@
-# SAM4C-EK EM Fault Injection
+# Workflow pour second coeur
 
-```bash
-# To run JLink's GDB server 
-make server
-# To connect to serial port
-make serial
-# To run gdb
-make debug_sram
-# or
-make debug_flash
+Compilez le projet.
+Les dépendances du Makefile sont cassées pour l'instant, donc le `make clean` est important.
+
+```
+$ make clean 
+$ make
 ```
 
 
-## Documentation
-
-[Everything for the SAM4C](https://asf.microchip.com/docs/latest/sam4c/html/).
-
-- [IOPORT](https://asf.microchip.com/docs/latest/sam4c/html/group__ioport__group.html): for GPIO
-- [sysclk](https://asf.microchip.com/docs/latest/sam4c/html/group__sysclk__group.html): not sure
-- [PMC](https://asf.microchip.com/docs/latest/sam4c/html/group__sam__drivers__pmc__group.html):
-  seems to be where to set the clocks
-- [AES](https://asf.microchip.com/docs/latest/sam4c/html/group__asfdoc__sam__drivers__aes__group.html)
-- [EEFC](https://asf.microchip.com/docs/latest/sam4c/html/group__sam__drivers__efc__group.html)
-- [EFS](https://asf.microchip.com/docs/latest/sam4c/html/group__sam__services__flash__efc__group.html)
-- [irq](https://asf.microchip.com/docs/latest/sam4c/html/group__interrupt__group.html): global interrupt management
-  - enable/disable IRQ
-  - set specific handlers
-    - can't find the definitions for now
-      - sam/utils/cmsis/sam4c/include/sam4c4c_0.h or sam/utils/cmsis/sam4c/include/sam4c4c_1.h?
-      - `grep HardFault_IRQn` to find the definitions
-
-
-## Things we'll want to do
-
-Disable I-cache, D-cache; reset them.
-
-Disable interrupts
-
-
-## Unclear
-
-
-
-Les ES doivent être échantillonnées à la même fréquence que le CPU.
-
-Trouver pins avec connecteur sur la carte.
-En prévoir 2 :
-- 1 qui va faire un trig: 0 1 0
-- 1 qui reste à 1 quand on a fini la séquence
-- 
-
-
-Prendre la fréquence minimum possible en gardant égalité.
-  16 MHz actuellement sur STM32
-
-Les 2 oscillateurs nous intéressent.
-
-
-DWT => regarder au niveau de la doc Cortex M4
-
-
-p. 271 datasheet: SysTick
-=> chercher dans CMSIS
-
-Garder un oeil sur les interruptions / exceptions
-  => il doit y en avoir un registre général
-
-équivalent du PSR?
-
-
-Dans un premier temps, sur un coeur:
-- horloges
-- trigger en sortie sur GPIO
-- code de test
-
-
-Plus tard : possibilité d'autres coeurs ?
-
-labo 3A113: avec Oualid
-
-Regarder horloge pour AES (est-ce qu'il tourne vite ?)
-  p. 574
-
-p.50 : Peripherals Identifiers (AES)
-
-
-
-
-
-Prendre ce qu'il y a de plus simple, entre 2 coeurs et AES
-
-
-
-## Important information
-
-The PIO controller is responsible for GPIO and is fed directly from the PMC by
-the Peripheral Clock.
-It can be programmed before setting up the clock.
-
-The peripheral clock needs to be enabled.
-=> easy way to do this in C: IOPORT/ioport_init()
-
-TODO: find pins.
-  User guide p. 24
-
-
-32.4.1 Pin multiplexing
-
-might need to set pin mode
-  https://asf.microchip.com/docs/latest/sam4c/html/group__ioport__group.html#ioport_modes
-
-
-open drain seems to be for 32.5.6 Multi-Drive Control: unneeded here
-
-We'll need a pull-down?
-
-PIO_SODR = Set Output Data Register
-CODR = Clear Output
-
-PIO_PSR is controlled by PIO_PER / PDR (if disabled, peripheral has control)
-
-(TODO: write an article about this)
-
-"Enabling the pull-down resistor while the pull-up resistor is still enabled is
-not possible."
-
-
-"Figure 32-3 shows how the outputs are driven either by writing PIO_SODR or
-PIO_CODR, or by directly writingPIO_ODSR. This last case is valid only if the
-corresponding bit in PIO_OWSR is set"
-
-use PIO_OWER to enable writing, then write to PIO_ODSR
-
-
-edge levels: irrelevant, no interrupts here
-
-high-drive: more current, such as for LEDs
-
-
-
-TODO: let's drive an LED :p
-
-TODO: let's drive clock directly to an output
-  think I found a pin for that... see system functions on pinout again
-
-
-bypass mode is to connect an external oscillator
-
-
-5.3.2: Core 0 Cache Controller (CMCC0) is enabled (only used if the application link address for the Core 0 is 0x11000000)
-
-
-
----
-
-TODO: set wait states
-
-TODO: find out how to use external oscillator
-
-
-
-8.1.5.2
-  After reset, the Sub-system 1 is hold in reset and with no clock. It is up to
-  the Master Application (Core 0Application) running on the Core 0 to enable the
-  Sub-system 1. Then the application code can be downloaded intothe CM4P1 Boot
-  memory (SRAM1), and CM4P0 can afterwards de-assert the CM4P1 reset line. The
-  secondaryprocessor (CM4P1) always identifies SRAM1 as “Boot memory”
-
-
-CM4P0/CM4P1: the Cortex M4 cores
-
-8.1.1 Internal SRAM
-  SRAM1 on Matrix1 is up to 32 Kbytes. It is mainly dedicated to be the code
-  region of the CM4P1 processor but canbe identified and used by Matrix0. SRAM2 on
-  Matrix1 is up to 16 Kbytes. It is mainly dedicated to be the data region of the
-  CM4P1 processor or otherperipherals on Matrix1 but can be identified and used by
-  masters on Matrix0.
-
-
-8.1.4.1 Flash overview
-  The Flash memory can be accessedthrough the Cache Memory Controller (CMCC0) of
-  the CM4P0 and can also be identified by the Cortex-M4F Core1 (CM4P1) through its
-  Cache Memory Controller (CMCC1).
-
-
-
-
-
-IRAM1_ADDR => where we should put the instructions
-  don't forget to disable clocks, but I think that's already done.
-
-  => just try faulting there! ez :)
-  => read docs on what happens on fault.
-
-
-asf version: xdk-asf-3.49.1
-
-
-
-CPBMCK != CPBHCLK
-
-
-
-- must manually synchronize between cores
-- apsel is not what we want
-- 
+Lancer JLinkGDBServer (pour le coeur 0) :
+
+```
+$ make server
+```
+
+Dans un nouveau terminal, ouvrir une session GDB (qui va servir à reprogrammer la carte et à inspecter l'état du coeur 0) :
+
+```
+$ cd core0
+$ make debug_flash
+```
+
+Dans un troisième terminal, ouvrir une instance `JLinkExe` pour le coeur 1.
+
+Il est **essentiel** d'exécuter `exec CORESIGHT_SetIndexAHBAPToUse = 1` avant
+`connect`, pour se connecter au second coeur.
+
+```
+$ JLinkExe -device AT91SAM4C16C -speed 4000 -if swd
+SEGGER J-Link Commander V6.96 (Compiled Feb 19 2021 09:59:28)
+DLL version V6.96, compiled Feb 19 2021 09:59:12
+
+Connecting to J-Link via USB...O.K.
+Firmware: J-Link V9 compiled Feb  2 2021 16:34:10
+Hardware version: V9.30
+S/N: 269301061
+License(s): FlashBP, GDB
+OEM: SEGGER-EDU
+VTref=3.322V
+
+
+Type "connect" to establish a target connection, '?' for help
+J-Link>exec CORESIGHT_SetIndexAHBAPToUse = 1;
+J-Link>connect
+Device "ATSAM4C16C" selected.
+
+
+Connecting to target via SWD
+Found SW-DP with ID 0x2BA01477
+DPIDR: 0x2BA01477
+AP map detection skipped. Manually configured AP map found.
+AP[0]: MEM-AP (IDR: Not set)
+AP[1]: AHB-AP (IDR: Not set)
+AP[1]: Core found
+AP[1]: AHB-AP ROM base: 0xE00FF000
+CPUID register: 0x410FC241. Implementer code: 0x41 (ARM)
+Found Cortex-M4 r0p1, Little endian.
+FPUnit: 6 code (BP) slots and 2 literal slots
+CoreSight components:J-Link>halt
+PC = 0000046A, CycleCnt = 035D0347
+R0 = 11111111, R1 = 0001100F, R2 = 00033000, R3 = 00077000
+R4 = 000FF000, R5 = 0AA00000, R6 = 09900000, R7 = 05A00000
+R8 = 0000055F, R9 = 00000AA0, R10= 40000000, R11= FFFFFFFE
+R12= E0001000
+SP(R13)= 20100CB0, MSP= 20100CB0, PSP= 00000000, R14(LR) = 0000036D
+XPSR = 01000000: APSR = nzcvq, EPSR = 01000000, IPSR = 000 (NoException)
+CFBP = 00000000, CONTROL = 00, FAULTMASK = 00, BASEPRI = 00, PRIMASK = 00
+
+FPS0 = 00000000, FPS1 = 00000000, FPS2 = 00000000, FPS3 = 00000000
+FPS4 = 00000000, FPS5 = 00000000, FPS6 = 00000000, FPS7 = 00000000
+FPS8 = 00000000, FPS9 = 00000000, FPS10= 00000000, FPS11= 00000000
+FPS12= 00000000, FPS13= 00000000, FPS14= 00000000, FPS15= 00000000
+FPS16= 00000000, FPS17= 00000000, FPS18= 00000000, FPS19= 00000000
+FPS20= 00000000, FPS21= 00000000, FPS22= 00000000, FPS23= 00000000
+FPS24= 00000000, FPS25= 00000000, FPS26= 00000000, FPS27= 00000000
+FPS28= 00000000, FPS29= 00000000, FPS30= 00000000, FPS31= 00000000E00D, PID: 003BB001 ITM
+ROMTbl[0][4]: E0040000, CID: B105900D, PID: 000BB9A1 TPIU
+Cortex-M4 identified.
+J-Link>
+```
+
+De là, on peut utiliser `halt`, `go`, etc.
