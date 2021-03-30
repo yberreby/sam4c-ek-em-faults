@@ -1,6 +1,8 @@
 .PHONY: server serial clean # pretty
 
 all:
+	# XXX
+	rm -rf {core0,core1}/emfi_core{0,1}_flash*
 	# Building core1 first is necessary.
 	# How else could we include it in core0's ELF to memcpy it?
 	make -C core1
