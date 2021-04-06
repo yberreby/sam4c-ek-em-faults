@@ -1,11 +1,11 @@
 .PHONY: all server clean pretty openocd
 
 all:
-	rm -rf {core0,core1}/emfi_core{0,1}_flash*
+	#rm -rf {core0,core1}/emfi_core{0,1}_flash*
 	# Building core1 first is necessary.
 	# How else could we include it in core0's ELF to memcpy it?
 	make -C core1
-	cp -f core1/emfi_core1_flash.bin core0/core1_image.bin
+	cp -f core1/emfi_core1_flash.bin core0/core1_image_inner
 	make -C core0
 
 

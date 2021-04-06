@@ -1,4 +1,4 @@
-#define CORE1_IMAGE_FILE "./core1_image.bin"
+#define CORE1_IMAGE_FILE "./core1_image_inner"
 
 .section .rodata
 .global core1_image_start

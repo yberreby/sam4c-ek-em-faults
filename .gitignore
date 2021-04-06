@@ -11,3 +11,5 @@ xdk-asf-3.49.1
 *.o
 *.d
 build
+
+core0/core1_image_inner

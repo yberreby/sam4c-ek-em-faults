@@ -93,6 +93,8 @@ run_test_seq:
   // Status pin:  PB6
   movs R12, #64
 
+  
+//trig:
   //
   // 0 - 1 - 0 pulse trigger.
   //
@@ -110,6 +112,8 @@ run_test_seq:
 
   // Sequence end.
   str.w  R12,[R10, #52]
+
+  //b trig
 
   //
   // Tear down DWT_CTRL
