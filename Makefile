@@ -5,6 +5,7 @@ all:
 	# Building core1 first is necessary.
 	# How else could we include it in core0's ELF to memcpy it?
 	make -C core1
+	cp -f core1/emfi_core1_flash.bin core0/core1_image.bin
 	make -C core0
 
 

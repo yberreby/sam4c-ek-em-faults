@@ -126,4 +126,4 @@ LDFLAGS = \
 
 # Pre- and post-build commands
 PREBUILD_CMD =
-POSTBUILD_CMD = cp -f $(project).bin ../core0/core1_image.bin
+POSTBUILD_CMD = 
