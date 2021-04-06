@@ -39,7 +39,7 @@ piob_output_base:
 .set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE
 .set PC_TARGET_POS, 0x20160000
 .set PC_TARGET_INIT, 0xAAAAAAAA
-.set FAULT_CANARY, 0xBACABACA
+.set FAULT_CANARY, 0xFAFAFAFA
 
 run_test_seq:
   // Reset PC value stored in RAM.

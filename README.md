@@ -6,7 +6,6 @@ Compilez le projet.
 $ make
 ```
 
-
 Lancer JLinkGDBServer pour le coeur 0 :
 
 ```
@@ -22,7 +21,7 @@ $ make debug_flash
 
 Une fois dans cette session, **exécutez `continue`**, puis faites Ctrl-C.
 
-Dans un nouveau terminal, lancer JLinkGDBServer pour le coeur 1 :
+Dans un nouveau terminal, lancez JLinkGDBServer pour le coeur 1 :
 
 ```
 $ make server_coproc
