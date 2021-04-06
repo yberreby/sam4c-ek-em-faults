@@ -1,6 +1,7 @@
 .PHONY: all server clean pretty openocd
 
 all:
+	rm -rf {core0,core1}/emfi_core{0,1}_flash*
 	# Building core1 first is necessary.
 	# How else could we include it in core0's ELF to memcpy it?
 	make -C core1
@@ -16,6 +17,8 @@ clean:
 server:
 	JLinkGDBServer -device AT91SAM4C16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
+server_coproc:
+	JLinkGDBServer -JLinkScriptFile SAM4C.JLinkScript -device AT91SAM4C16C -speed 4000 -if swd -port 2345
 
 pretty:
 	# The null_glob avoids erroring out when there are no .h files.

@@ -28,7 +28,7 @@ Il est **essentiel** d'exécuter `exec CORESIGHT_SetIndexAHBAPToUse = 1` avant
 `connect`, pour se connecter au second coeur.
 
 ```
-$ JLinkExe -device AT91SAM4C16C -speed 4000 -if swd                                                                                    ~/sam4c-ek-em-faults
+$ JLinkExe -device AT91SAM4C16C -speed 4000 -if swd
 SEGGER J-Link Commander V6.86b (Compiled Oct  2 2020 17:44:51)
 DLL version V6.86b, compiled Oct  2 2020 17:44:39
 

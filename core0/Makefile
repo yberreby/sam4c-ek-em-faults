@@ -7,4 +7,4 @@ include $(MAKEFILE_PATH)
 #serial:
 #	tio -b 62500 -d 8 -f none -s 1 --parity none /dev/ttyUSB0
 
-core0/core1_image.o: ./core1_image.bin
+#core1_image.o: ../core1/emfi_core1_flash.bin

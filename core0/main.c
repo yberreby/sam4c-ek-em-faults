@@ -69,10 +69,10 @@ int main(void) {
     // efc_set_wait_state(EFC, 6);
 
     /* Set up output pins */
-    // ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
-    // ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
-    // ioport_enable_pin(TRIGGER_PIN);
-    // ioport_enable_pin(STATUS_PIN);
+    ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
+    ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
+    ioport_enable_pin(TRIGGER_PIN);
+    ioport_enable_pin(STATUS_PIN);
 
     // Hand off control to core1.
     copy_core1_image_into_sram1();

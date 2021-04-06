@@ -32,10 +32,16 @@ piob_output_base:
 .set DWT_CYCCNT, DWT_CTRL+0x4
 .set DWT_CTRL_CYCCNTENA, 0x1
 .set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE
-
-
+.set PC_TARGET_POS, 0x20160000
+.set PC_TARGET_INIT, 0xAAAAAAAA
 
 run_test_seq:
+  // Reset PC value stored in RAM.
+  ldr r1, =PC_TARGET_INIT
+  ldr r2, =PC_TARGET_POS
+  str r1, [r2]
+  // End reset RAM PC.
+
   bl initialize_registers
 
   //
@@ -87,8 +93,6 @@ run_test_seq:
   // Status pin:  PB6
   movs R12, #64
 
-
-trig:
   //
   // 0 - 1 - 0 pulse trigger.
   //
@@ -106,8 +110,6 @@ trig:
 
   // Sequence end.
   str.w  R12,[R10, #52]
-
-
 
   //
   // Tear down DWT_CTRL
@@ -132,6 +134,14 @@ trig:
 
 
   // End DWT_CTRL teardown.
+
+  // Store PC value.
+  // This clobbers r10.
+  ldr.w r10, =PC_TARGET_POS
+  // A wide instruction CANNOT work
+  // https://www.keil.com/support/man/docs/armasm/armasm_dom1361289878994.htm
+  mov.n r11, pc
+  str.w r11, [r10]
 
   b stop
 
@@ -224,6 +234,6 @@ stop:
 please_hardfault:
   nop
   // 32-bit permanently undefined instruction.
-  .inst.w 0xF7F0A0000
+  .inst.w 0xF7F0A000
   // 16-bit permanently undefined instruction.
   .inst.n 0xde00

@@ -1,0 +1,6 @@
+SRAM0: 0x20000000 -> 0x20080000
+SRAM1: 0x20080000 -> 0x20100000
+SRAM2: 0x20100000 -> 0x20180000
+
+
+let's choose 0x20160000 as our destination.
