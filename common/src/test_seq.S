@@ -5,6 +5,11 @@
 .global run_test_seq
 .global please_hardfault
 
+.global UsageFault_Handler
+.global NMI_Handler
+.global MemManage_Handler
+.global HardFault_Handler
+.global BusFault_Handler
 
 const1:  .word   0x00000000
 const2:  .word   0x00000000
@@ -34,6 +39,7 @@ piob_output_base:
 .set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE
 .set PC_TARGET_POS, 0x20160000
 .set PC_TARGET_INIT, 0xAAAAAAAA
+.set FAULT_CANARY, 0xBACABACA
 
 run_test_seq:
   // Reset PC value stored in RAM.
@@ -140,13 +146,17 @@ run_test_seq:
   // End DWT_CTRL teardown.
 
   // Store PC value.
-  // This clobbers r10.
   ldr.w r10, =PC_TARGET_POS
   // A wide instruction CANNOT work
   // https://www.keil.com/support/man/docs/armasm/armasm_dom1361289878994.htm
   mov.n r11, pc
   str.w r11, [r10]
 
+  // Use this to check the exception handlers.
+  b please_hardfault
+
+  // Just loop forever.
+stop:
   b stop
 
 
@@ -227,13 +237,6 @@ run_attacked_code:
   // XXX: nop count?
   bx lr
 
-
-
-// Just loop forever.
-stop:
-  b stop
-
-
 // Gibberish to trigger a Hard Fault due to an undefined instruction
 please_hardfault:
   nop
@@ -241,3 +244,22 @@ please_hardfault:
   .inst.w 0xF7F0A000
   // 16-bit permanently undefined instruction.
   .inst.n 0xde00
+
+
+UsageFault_Handler:
+NMI_Handler:
+MemManage_Handler:
+HardFault_Handler:
+BusFault_Handler:
+  // Store PC in RAM.
+  ldr.w r10, =PC_TARGET_POS
+  mov.n r11, pc
+  str.w r11, [r10]
+
+  // Little canary value in r12 to say we faulted.
+  ldr r12, =FAULT_CANARY
+
+  // Loop forever
+fault_handler_loop:
+  b fault_handler_loop
+  
