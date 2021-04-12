@@ -56,13 +56,10 @@ piob_output_base:
 //   PC
 //   CPSR
 //   c1 (control register)
-//   fpscr
-//   fpexc
-//   fpsid
 //   sp
 //   lr
 //   r0 to r9 (included)
-// = 18*4 bytes
+// = 15*4 bytes
 
 .macro store_cpu_state_in_ram
   ldr.w r10, =STATE_TARGET_POS
@@ -78,16 +75,6 @@ piob_output_base:
   // MRC: Move to ARM Register from Coprocessor
   mrc p15, 0, r11, c1, c0, 0
   str.w r11, [r10], #1
-  
-  // // Store the value of a VFP System Register.
-  // .macro str_vfpsr reg:req
-  //   vmsr \reg, r11
-  //   str.w r11, [r10], #1
-  // .endm
-  // 
-  // str_vfpsr fpscr
-  // str_vfpsr fpexc
-  // str_vfpsr fpsid
   
   // Since this is not a function but a macro,
   // sp and lr should remain untouched.
