@@ -27,6 +27,8 @@ Dans un nouveau terminal, lancez JLinkGDBServer pour le coeur 1 :
 $ make server_coproc
 ```
 
+Note : il est **nécessaire** d'avoir exécuté le programme du coeur 0 avant de lancer le serveur pour le coeur 1, car c'est le coeur 0 qui démarre le coeur 1.
+
 Dans un nouveau terminal, ouvrez une session GDB pour le coeur 1 :
 
 ```
