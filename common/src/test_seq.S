@@ -46,7 +46,7 @@ piob_output_base:
 // - clobbers r10, r11
 .macro str_reg_state reg:req
   mov.n r11, \reg
-  str.w r11, [r10], #1
+  str.w r11, [r10], #4
 .endm
 
 
@@ -54,8 +54,8 @@ piob_output_base:
 // states.
 // Layout:
 //   PC
-//   CPSR
-//   c1 (control register)
+// //   CPSR
+// //   c1 (control register)
 //   sp
 //   lr
 //   r0 to r9 (included)
@@ -67,14 +67,14 @@ piob_output_base:
   // Setting it first because the rest will keep incrementing it.
   str_reg_state pc
   
-  // A PSR requires special handling and cannot be moved as-is.
-  mrs r11, APSR
-  str.w r11, [r10], #1
+  // // // A PSR requires special handling and cannot be moved as-is.
+  // mrs r11, APSR
+  // str.w r11, [r10], #4
   
   // Control Register handling.
   // MRC: Move to ARM Register from Coprocessor
-  mrc p15, 0, r11, c1, c0, 0
-  str.w r11, [r10], #1
+  // mrc p15, 0, r11, c1, c0, 0
+  // str.w r11, [r10], #4
   
   // Since this is not a function but a macro,
   // sp and lr should remain untouched.
