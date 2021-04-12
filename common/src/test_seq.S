@@ -67,9 +67,6 @@ piob_output_base:
   // Setting it first because the rest will keep incrementing it.
   str_reg_state pc
   
-  // // // A PSR requires special handling and cannot be moved as-is.
-  // mrs r11, APSR
-  // str.w r11, [r10], #4
   
   // Control Register handling.
   // MRC: Move to ARM Register from Coprocessor
@@ -94,6 +91,14 @@ piob_output_base:
   str_reg_state r9
   
   // r10, r11, r12 are always clobbered. No use storing them.
+  
+  ldr r11, =0xffffffff
+  adds r11, #1
+
+  // A PSR requires special handling and cannot be moved as-is.
+  mrs r11, APSR
+  str r11, [r10], #4
+  
 .endm
 
 
