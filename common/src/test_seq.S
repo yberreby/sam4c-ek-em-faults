@@ -37,16 +37,84 @@ piob_output_base:
 .set DWT_CYCCNT, DWT_CTRL+0x4
 .set DWT_CTRL_CYCCNTENA, 0x1
 .set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE
-.set PC_TARGET_POS, 0x20160000
-.set PC_TARGET_INIT, 0xAAAAAAAA
+.set STATE_TARGET_POS, 0x20160000
+.set STATE_TARGET_INIT, 0xAAAAAAAA
 .set FAULT_CANARY, 0xFAFAFAFA
 
+
+// - assumes r10 contains the next address at which to store the register value
+// - clobbers r10, r11
+.macro str_reg_state reg:req
+  mov.n r11, \reg
+  str.w r11, [r10], #1
+.endm
+
+
+// This macro assumes that r10 contains the address at which to store register
+// states.
+// Layout:
+//   PC
+//   CPSR
+//   c1 (control register)
+//   fpscr
+//   fpexc
+//   fpsid
+//   sp
+//   lr
+//   r0 to r9 (included)
+// = 18*4 bytes
+
+.macro store_cpu_state_in_ram
+  ldr.w r10, =STATE_TARGET_POS
+
+  // Setting it first because the rest will keep incrementing it.
+  str_reg_state pc
+  
+  // A PSR requires special handling and cannot be moved as-is.
+  mrs r11, APSR
+  str.w r11, [r10], #1
+  
+  // Control Register handling.
+  // MRC: Move to ARM Register from Coprocessor
+  mrc p15, 0, r11, c1, c0, 0
+  str.w r11, [r10], #1
+  
+  // // Store the value of a VFP System Register.
+  // .macro str_vfpsr reg:req
+  //   vmsr \reg, r11
+  //   str.w r11, [r10], #1
+  // .endm
+  // 
+  // str_vfpsr fpscr
+  // str_vfpsr fpexc
+  // str_vfpsr fpsid
+  
+  // Since this is not a function but a macro,
+  // sp and lr should remain untouched.
+  str_reg_state sp
+  str_reg_state lr
+  
+  // Store unclobbered general-purpose registers.
+  str_reg_state r0
+  str_reg_state r1
+  str_reg_state r2
+  str_reg_state r3
+  str_reg_state r4
+  str_reg_state r5
+  str_reg_state r6
+  str_reg_state r7
+  str_reg_state r8
+  str_reg_state r9
+  
+  // r10, r11, r12 are always clobbered. No use storing them.
+.endm
+
+
+
+
 run_test_seq:
-  // Reset PC value stored in RAM.
-  ldr r1, =PC_TARGET_INIT
-  ldr r2, =PC_TARGET_POS
-  str r1, [r2]
-  // End reset RAM PC.
+  // XXX: This is only for debugging.
+  store_cpu_state_in_ram
 
   bl initialize_registers
 
@@ -145,15 +213,10 @@ run_test_seq:
 
   // End DWT_CTRL teardown.
 
-  // Store PC value.
-  ldr.w r10, =PC_TARGET_POS
-  // A wide instruction CANNOT work
-  // https://www.keil.com/support/man/docs/armasm/armasm_dom1361289878994.htm
-  mov.n r11, pc
-  str.w r11, [r10]
+  store_cpu_state_in_ram
 
-  // Use this to check the exception handlers.
-  b please_hardfault
+  // // Use this to check the exception handlers.
+  // b please_hardfault
 
   // Just loop forever.
 stop:
@@ -251,15 +314,14 @@ NMI_Handler:
 MemManage_Handler:
 HardFault_Handler:
 BusFault_Handler:
-  // Store PC in RAM.
-  ldr.w r10, =PC_TARGET_POS
-  mov.n r11, pc
-  str.w r11, [r10]
+  store_cpu_state_in_ram
 
   // Little canary value in r12 to say we faulted.
+  // For attached debugging.
   ldr r12, =FAULT_CANARY
 
   // Loop forever
 fault_handler_loop:
   b fault_handler_loop
+  
   
