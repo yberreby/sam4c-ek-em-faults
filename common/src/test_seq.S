@@ -54,8 +54,6 @@ piob_output_base:
 // states.
 // Layout:
 //   PC
-// //   CPSR
-// //   c1 (control register)
 //   sp
 //   lr
 //   r0 to r9 (included)
@@ -66,13 +64,7 @@ piob_output_base:
 
   // Setting it first because the rest will keep incrementing it.
   str_reg_state pc
-  
-  
-  // Control Register handling.
-  // MRC: Move to ARM Register from Coprocessor
-  // mrc p15, 0, r11, c1, c0, 0
-  // str.w r11, [r10], #4
-  
+ 
   // Since this is not a function but a macro,
   // sp and lr should remain untouched.
   str_reg_state sp
@@ -91,14 +83,6 @@ piob_output_base:
   str_reg_state r9
   
   // r10, r11, r12 are always clobbered. No use storing them.
-  
-  ldr r11, =0xffffffff
-  adds r11, #1
-
-  // A PSR requires special handling and cannot be moved as-is.
-  mrs r11, APSR
-  str r11, [r10], #4
-  
 .endm
 
 
