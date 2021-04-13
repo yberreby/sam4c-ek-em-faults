@@ -14,6 +14,7 @@ TARGET_SRAM = emfi_core0_sram.elf
 # List of C source files.
 CSRCS = \
        ../core0/main.c                 	\
+       ../common/src/test_aes.c                 	\
        common/services/clock/sam4c/sysclk.c               \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \

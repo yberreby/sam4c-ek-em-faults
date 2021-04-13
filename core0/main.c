@@ -1,6 +1,5 @@
 #include "test_seq.h"
 
-#include <aes.h>
 #include <board.h>
 #include <cmcc.h>
 #include <compiler.h>
