@@ -1,5 +1,6 @@
 #include "test_seq.h"
 
+#include <aes.h>
 #include <board.h>
 #include <cmcc.h>
 #include <compiler.h>
@@ -59,7 +60,7 @@ int main(void) {
     // Will initialize ioport, among other things.
     board_init();
 
-    // // Disable cache controller for both cores.
+    // Disable cache controller for both cores.
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
 

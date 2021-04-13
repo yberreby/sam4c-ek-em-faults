@@ -28,6 +28,7 @@ CSRCS = \
        sam/drivers/usart/usart.c                          \
        sam/drivers/efc/efc.c							  \
        sam/drivers/rstc/rstc.c                            \
+       sam/drivers/aes/aes.c                            \
        sam/utils/cmsis/sam4c/source/templates/gcc/startup_sam4c.c \
        sam/utils/cmsis/sam4c/source/templates/system_sam4c.c \
        sam/utils/syscalls/gcc/syscalls.c
@@ -44,6 +45,7 @@ INC_PATH = \
        common/boards                                      \
        common/services/clock                              \
        common/services/ioport                             \
+       common/services/sleepmgr                           \
        common/utils                                       \
        common/utils/stdio/stdio_serial                    \
        sam/boards                                         \
@@ -56,6 +58,7 @@ INC_PATH = \
        sam/drivers/cmcc                                   \
        sam/drivers/efc                                    \
        sam/drivers/rstc                                   \
+       sam/drivers/aes                                    \
        sam/utils                                          \
        sam/utils/cmsis/sam4c/include                      \
        sam/utils/cmsis/sam4c/source/templates             \
