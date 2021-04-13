@@ -57,6 +57,7 @@ piob_output_base:
 //   sp
 //   lr
 //   r0 to r9 (included)
+//   part of PSR
 // = 15*4 bytes
 
 .macro store_cpu_state_in_ram
@@ -83,6 +84,10 @@ piob_output_base:
   str_reg_state r9
   
   // r10, r11, r12 are always clobbered. No use storing them.
+
+  // Did we fault?
+  mrs r11, XPSR
+  str.w r11, [r10], #4
 .endm
 
 
@@ -189,11 +194,11 @@ run_test_seq:
 
   // End DWT_CTRL teardown.
 
-  store_cpu_state_in_ram
 
   // // Use this to check the exception handlers.
-  // b please_hardfault
+  b please_hardfault
 
+  //store_cpu_state_in_ram
   // Just loop forever.
 stop:
   b stop
