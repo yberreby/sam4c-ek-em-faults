@@ -1,4 +1,5 @@
 #include "test_seq.h"
+#include "test_aes.h"
 
 #include <board.h>
 #include <cmcc.h>
@@ -49,6 +50,9 @@ void setup_clock_pin() {
     ioport_disable_pin(CLOCK_PIN);
 }
 
+volatile bool ecb_ciph_ok = false;
+volatile bool ecb_deciph_ok = false;
+
 
 int main(void) {
     // Set up the clocks.
@@ -64,6 +68,14 @@ int main(void) {
     cmcc_disable(CMCC1);
 
     setup_clock_pin();
+
+
+    init_aes();
+    ecb_ciph_ok = check_ecb_encryption();
+    ecb_deciph_ok = check_ecb_decryption();
+
+    while (1);
+
 
     // // FWS = cycles -1
     // efc_set_wait_state(EFC, 6);

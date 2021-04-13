@@ -52,8 +52,7 @@ void init_aes() {
 }
 
 
-
-static void check_ecb_encryption() {
+bool check_ecb_encryption() {
 	aes_output_ready = false;
 
 	/* Configure the AES. */
@@ -88,7 +87,7 @@ static void check_ecb_encryption() {
 }
 
 
-static void check_ecb_decryption() {
+bool check_ecb_decryption() {
 	aes_output_ready = false;
 
 	/* Configure the AES. */
@@ -120,5 +119,4 @@ static void check_ecb_decryption() {
 	} else {
         return true;
 	}
-
 }
