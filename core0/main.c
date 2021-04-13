@@ -91,7 +91,7 @@ int main(void) {
     rstc_deassert_reset_of_coprocessor(
         RSTC,
         RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
-    );
+        );
 
     // Block.
     while (1);

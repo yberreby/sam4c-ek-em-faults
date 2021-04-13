@@ -38,7 +38,7 @@ int main(void) {
     // ioport_enable_pin(STATUS_PIN);
 
     // hello
-// 
+//
 //     while (1) {
 //         ioport_set_pin_level(TRIGGER_PIN,  0);
 //         ioport_set_pin_level(TRIGGER_PIN,  1);
