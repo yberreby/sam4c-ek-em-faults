@@ -19,31 +19,7 @@
 #include <sysclk.h>
 #include <tc.h>
 
-// #define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 12)
-// #define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
-// #define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
-
-
 int main(void) {
-    //while (1);
-    // int volatile * const dst = (int *)0x20100A0A;
-    // *dst = 0xAA;
-
-    // while (1);
-
-    /* Set up output pins */
-    // ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
-    // ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
-    // ioport_enable_pin(TRIGGER_PIN);
-    // ioport_enable_pin(STATUS_PIN);
-
-    // hello
-//
-//     while (1) {
-//         ioport_set_pin_level(TRIGGER_PIN,  0);
-//         ioport_set_pin_level(TRIGGER_PIN,  1);
-//     }
-
     // Does not return.
     // Pure asm.
     run_test_seq();
