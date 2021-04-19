@@ -70,11 +70,11 @@ int main(void) {
     setup_clock_pin();
 
 
-    init_aes();
-    ecb_ciph_ok = check_ecb_encryption();
-    ecb_deciph_ok = check_ecb_decryption();
+    // init_aes();
+    // ecb_ciph_ok = check_ecb_encryption();
+    // ecb_deciph_ok = check_ecb_decryption();
 
-    while (1);
+    // while (1);
 
 
     // // FWS = cycles -1
