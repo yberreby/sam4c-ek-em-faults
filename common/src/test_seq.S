@@ -33,10 +33,6 @@ const17: .word   0x11111118
 piob_output_base:
   .word 0x400e1000
 
-.set DWT_CTRL, 0xE0001000
-.set DWT_CYCCNT, DWT_CTRL+0x4
-.set DWT_CTRL_CYCCNTENA, 0x1
-.set DWT_CTRL_CYCCNTDSB, 0xFFFFFFFE
 .set STATE_TARGET_POS, 0x20160000
 .set STATE_TARGET_INIT, 0xAAAAAAAA
 .set FAULT_CANARY, 0xFAFAFAFA
@@ -57,8 +53,8 @@ piob_output_base:
 //   sp
 //   lr
 //   r0 to r9 (included)
-//   part of PSR
-// = 15*4 bytes
+//   xPSR
+// = 14 words
 
 .macro store_cpu_state_in_ram
   ldr.w r10, =STATE_TARGET_POS
@@ -85,8 +81,8 @@ piob_output_base:
   
   // r10, r11, r12 are always clobbered. No use storing them.
   
+  // Store XPSR
   mrs r11, XPSR
-  //str_reg_state r11
   str.w r11, [r10], #4
 .endm
 
@@ -94,46 +90,10 @@ piob_output_base:
 
 
 run_test_seq:
-  // XXX: This is only for debugging.
+  // For debugging.
   store_cpu_state_in_ram
 
   bl initialize_registers
-
-  //
-  // DWT_CTRL setup
-  //
-
-  // Store address of DWT_CTRL in r12,
-  // and its initial value in r10.
-  ldr r12, =DWT_CTRL
-  ldr r10, [r12]
-
-  //
-  // Disable CYCCNT.
-  //
-
-  // Compute new value of DWT_CTRL, store it in r10.
-  ldr r11, =DWT_CTRL_CYCCNTDSB
-  and r10, r10, r11
-
-  // Store it back.
-  str r10, [r12]
-
-
-  // Clear DWT_CYCCNT.
-  ldr r12, =DWT_CYCCNT
-  mov r11, #0
-  str r11, [r12]
-
-
-  // Constant corresponding to setting the DWT_CTRL_CYCCNTENA bit.
-  ldr r12, =DWT_CTRL
-  ldr r11, =DWT_CTRL_CYCCNTENA
-  orr r10, r10, r11
-  str r10, [r12]
-
-
-  // End DWT_CTRL setup.
 
   //
   // Load base address for PIOB registers into R10.
@@ -169,31 +129,6 @@ run_test_seq:
   str.w  R12,[R10, #52]
 
   //b trig
-
-  //
-  // Tear down DWT_CTRL
-  // - Disable cycle counter
-  //
-
-  // Store address of DWT_CTRL in r12,
-  // and its initial value in r10.
-  ldr r12, =DWT_CTRL
-  ldr r10, [r12]
-
-  //
-  // Disable CYCCNT.
-  //
-
-  // Compute new value of DWT_CTRL, store it in r10.
-  ldr r11, =DWT_CTRL_CYCCNTDSB
-  and r10, r10, r11
-
-  // Store it back.
-  str r10, [r12]
-
-
-  // End DWT_CTRL teardown.
-
 
 
 
