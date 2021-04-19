@@ -84,9 +84,9 @@ piob_output_base:
   str_reg_state r9
   
   // r10, r11, r12 are always clobbered. No use storing them.
-
-  // Did we fault?
+  
   mrs r11, XPSR
+  //str_reg_state r11
   str.w r11, [r10], #4
 .endm
 
@@ -143,10 +143,10 @@ run_test_seq:
 
 
   // Pulse trigger pin: PB12
-  movs R11, #4096
+  mov R11, #4096
 
   // Status pin:  PB6
-  movs R12, #64
+  mov R12, #64
 
   
 //trig:
@@ -195,10 +195,13 @@ run_test_seq:
   // End DWT_CTRL teardown.
 
 
+
+
   // // Use this to check the exception handlers.
   b please_hardfault
-
-  //store_cpu_state_in_ram
+  
+  
+  store_cpu_state_in_ram
   // Just loop forever.
 stop:
   b stop
@@ -290,19 +293,40 @@ please_hardfault:
   .inst.n 0xde00
 
 
-UsageFault_Handler:
-NMI_Handler:
-MemManage_Handler:
-HardFault_Handler:
-BusFault_Handler:
+
+
+// Align these...
+.thumb_func
+Default_Handler:
   store_cpu_state_in_ram
 
   // Little canary value in r12 to say we faulted.
   // For attached debugging.
   ldr r12, =FAULT_CANARY
-
+  
   // Loop forever
 fault_handler_loop:
   b fault_handler_loop
-  
-  
+
+.thumb_set UsageFault_Handler, Default_Handler
+.thumb_set NMI_Handler, Default_Handler
+.thumb_set MemManage_Handler, Default_Handler
+.thumb_set HardFault_Handler, Default_Handler
+.thumb_set BusFault_Handler, Default_Handler
+
+
+
+// Keeping this handy for tests.
+/*
+
+  // Set N flag.
+  movs r11, #-1
+  movs r12, #-1
+  // Set Q flag
+  qadd r11, r11, r12
+  // Set Z flag.
+  movs r12, #0
+  // Set C flag
+  mov r11, #-1
+  adds r11, r11, r11
+*/

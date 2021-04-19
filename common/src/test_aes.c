@@ -31,8 +31,7 @@ uint32_t ref_cipher_text_ecb[AES_EXAMPLE_REFBUF_SIZE] = {
 };
 
 
-static void aes_callback(void)
-{
+static void aes_callback(void) {
     /* Read the output. */
     aes_read_output_data(AES, output_data);
     aes_output_ready = true;
