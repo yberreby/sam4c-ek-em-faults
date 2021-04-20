@@ -30,8 +30,14 @@ const16: .word   0xF0FFFF0F
 const17: .word   0x11111118
 
 
+pioa_output_base:
+  .word 0x400E0E00
+
 piob_output_base:
   .word 0x400e1000
+
+pioc_output_base:
+  .word 0x4800C000
 
 .set STATE_TARGET_POS, 0x20160000
 .set STATE_TARGET_INIT, 0xAAAAAAAA
@@ -98,15 +104,22 @@ run_test_seq:
   //
   // Load base address for PIOB registers into R10.
   //
+  //ldr  R10,=piob_output_base
   ldr  R10,=piob_output_base
   ldr  R10,[R10]
 
 
-  // Pulse trigger pin: PB12
-  mov R11, #4096
+  // Pulse trigger pin: PC0
+//  mov R12, #(1<<2)
+//
+//  // Status pin:  PC1
+//  mov R11, #(1<<3)
 
-  // Status pin:  PB6
-  mov R12, #64
+  // Pulse trigger pin
+  mov R12, #(1<<6)
+
+  // Status pin
+  mov R11, #(1<<12)
 
   
 //trig:
@@ -116,11 +129,11 @@ run_test_seq:
   str.w  R11,[R10, #52]
   str.w  R11,[R10, #48]
   str.w  R11,[R10, #52]
-
   nop.w
   nop.w
 
-  // Sequence start.
+
+  // Seq start
   str.w  R12,[R10, #48]
 
   bl run_attacked_code
@@ -133,7 +146,7 @@ run_test_seq:
 
 
   // // Use this to check the exception handlers.
-  b please_hardfault
+  //b please_hardfault
   
   
   store_cpu_state_in_ram

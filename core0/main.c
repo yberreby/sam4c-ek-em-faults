@@ -20,9 +20,15 @@
 #include <sysclk.h>
 #include <tc.h>
 
-#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 12)
-#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 6)
+// Original
 #define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
+#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
+#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
+
+//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 6)
+//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 7)
+//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
+//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
@@ -53,6 +59,13 @@ void setup_clock_pin() {
 volatile bool ecb_ciph_ok = false;
 volatile bool ecb_deciph_ok = false;
 
+
+void enable_pioc_output() {
+
+asm("nop");
+    ioport_set_pin_level(STATUS_PIN, 1);
+asm("nop");
+}
 
 int main(void) {
     // Set up the clocks.
@@ -87,18 +100,20 @@ int main(void) {
     ioport_enable_pin(STATUS_PIN);
 
     // Hand off control to core1.
-    copy_core1_image_into_sram1();
-    rstc_deassert_reset_of_coprocessor(
-        RSTC,
-        RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
-        );
+    //copy_core1_image_into_sram1();
+    //rstc_deassert_reset_of_coprocessor(
+    //    RSTC,
+    //    RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
+    //    );
 
-    // Block.
-    while (1);
+    //enable_pioc_output();
 
     // Does not return.
     // Pure asm.
-    // run_test_seq();
+    run_test_seq();
+
+    // Block.
+    while (1);
 
     // Unreachable.
     return 0;
