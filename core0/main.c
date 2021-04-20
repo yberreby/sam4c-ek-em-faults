@@ -22,13 +22,13 @@
 
 // Original
 #define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
-#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
-#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
+//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
+//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
 
 //#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 6)
 //#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 7)
-//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
-//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
+#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
+#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;

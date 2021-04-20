@@ -20,16 +20,7 @@
 #include <tc.h>
 
 
-// Inverted
-//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
-
 int main(void) {
-    //sysclk_set_source(SYSCLK_SRC_SLCK_RC);
-    //sysclk_set_source(SYSCLK_SRC_MCK);
-
-
-
-
     // Does not return.
     // Pure asm.
     run_test_seq();

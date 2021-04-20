@@ -105,21 +105,16 @@ run_test_seq:
   // Load base address for PIOB registers into R10.
   //
   //ldr  R10,=piob_output_base
-  ldr  R10,=piob_output_base
+  ldr  R10,=pioc_output_base
   ldr  R10,[R10]
 
 
-  // Pulse trigger pin: PC0
-//  mov R12, #(1<<2)
-//
-//  // Status pin:  PC1
-//  mov R11, #(1<<3)
+  // Pulse trigger pin: PC2
+  mov R12, #(1<<2)
 
-  // Pulse trigger pin
-  mov R12, #(1<<6)
+  // Status pin:  PC3
+  mov R11, #(1<<3)
 
-  // Status pin
-  mov R11, #(1<<12)
 
   
 //trig:
