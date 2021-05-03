@@ -14,23 +14,23 @@ TARGET_SRAM = emfi_core1_sram.elf
 
 # List of C source files.
 CSRCS = \
-	../core1/main.c                                    \
-       common/services/clock/sam4c/sysclk.c               \
-       common/utils/interrupt/interrupt_sam_nvic.c        \
-       common/utils/stdio/read.c                          \
-       common/utils/stdio/write.c                         \
-       sam/boards/sam4c_ek/init.c                         \
-       sam/drivers/pio/pio.c                              \
-       sam/drivers/pio/pio_handler.c                      \
-       sam/drivers/pmc/pmc.c                              \
-       sam/drivers/pmc/sleep.c                            \
-       sam/drivers/tc/tc.c                                \
-       sam/drivers/uart/uart.c                            \
-       sam/drivers/usart/usart.c                          \
-       sam/drivers/efc/efc.c							  \
-       sam/drivers/rstc/rstc.c                            \
+	../core1/main.c                                            \
+       common/services/clock/sam4c/sysclk.c                       \
+       common/utils/interrupt/interrupt_sam_nvic.c                \
+       common/utils/stdio/read.c                                  \
+       common/utils/stdio/write.c                                 \
+       sam/boards/sam4c_ek/init.c                                 \
+       sam/drivers/efc/efc.c                                      \
+       sam/drivers/pio/pio.c                                      \
+       sam/drivers/pio/pio_handler.c                              \
+       sam/drivers/pmc/pmc.c                                      \
+       sam/drivers/pmc/sleep.c                                    \
+       sam/drivers/rstc/rstc.c                                    \
+       sam/drivers/tc/tc.c                                        \
+       sam/drivers/uart/uart.c                                    \
+       sam/drivers/usart/usart.c                                  \
        sam/utils/cmsis/sam4c/source/templates/gcc/startup_sam4c.c \
-       sam/utils/cmsis/sam4c/source/templates/system_sam4c.c \
+       sam/utils/cmsis/sam4c/source/templates/system_sam4c.c      \
        sam/utils/syscalls/gcc/syscalls.c
 
 # List of assembler source files.
@@ -47,18 +47,18 @@ INC_PATH = \
        common/utils/stdio/stdio_serial                    \
        sam/boards                                         \
        sam/boards/sam4c_ek                                \
+       sam/drivers/cmcc                                   \
+       sam/drivers/efc                                    \
        sam/drivers/pio                                    \
        sam/drivers/pmc                                    \
+       sam/drivers/rstc                                   \
        sam/drivers/tc                                     \
        sam/drivers/uart                                   \
        sam/drivers/usart                                  \
-       sam/drivers/cmcc                                   \
-       sam/drivers/efc                                    \
-       sam/drivers/rstc                                   \
        sam/utils                                          \
-       sam/utils/fpu                                      \
        sam/utils/cmsis/sam4c/include                      \
        sam/utils/cmsis/sam4c/source/templates             \
+       sam/utils/fpu                                      \
        sam/utils/header_files                             \
        sam/utils/preprocessor                             \
        thirdparty/CMSIS/Include                           \
