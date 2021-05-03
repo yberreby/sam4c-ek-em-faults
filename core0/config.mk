@@ -13,23 +13,24 @@ TARGET_SRAM = emfi_core0_sram.elf
 
 # List of C source files.
 CSRCS = \
-       ../core0/main.c                 	\
-       ../common/src/test_aes.c                 	\
+       ../core0/main.c                                    \
+       ../common/src/test_aes.c                           \
+	drivers/ipc/ipc.c                                  \
        common/services/clock/sam4c/sysclk.c               \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \
        common/utils/stdio/write.c                         \
        sam/boards/sam4c_ek/init.c                         \
+       sam/drivers/aes/aes.c                              \
+       sam/drivers/efc/efc.c                              \
        sam/drivers/pio/pio.c                              \
        sam/drivers/pio/pio_handler.c                      \
        sam/drivers/pmc/pmc.c                              \
        sam/drivers/pmc/sleep.c                            \
+       sam/drivers/rstc/rstc.c                            \
        sam/drivers/tc/tc.c                                \
        sam/drivers/uart/uart.c                            \
        sam/drivers/usart/usart.c                          \
-       sam/drivers/efc/efc.c							  \
-       sam/drivers/rstc/rstc.c                            \
-       sam/drivers/aes/aes.c                            \
        sam/utils/cmsis/sam4c/source/templates/gcc/startup_sam4c.c \
        sam/utils/cmsis/sam4c/source/templates/system_sam4c.c \
        sam/utils/syscalls/gcc/syscalls.c
