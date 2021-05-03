@@ -52,15 +52,15 @@ INC_PATH = \
        common/utils/stdio/stdio_serial                    \
        sam/boards                                         \
        sam/boards/sam4c_ek                                \
+       sam/drivers/aes                                    \
+       sam/drivers/cmcc                                   \
+       sam/drivers/efc                                    \
        sam/drivers/pio                                    \
        sam/drivers/pmc                                    \
+       sam/drivers/rstc                                   \
        sam/drivers/tc                                     \
        sam/drivers/uart                                   \
        sam/drivers/usart                                  \
-       sam/drivers/cmcc                                   \
-       sam/drivers/efc                                    \
-       sam/drivers/rstc                                   \
-       sam/drivers/aes                                    \
        sam/utils                                          \
        sam/utils/cmsis/sam4c/include                      \
        sam/utils/cmsis/sam4c/source/templates             \
