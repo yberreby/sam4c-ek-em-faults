@@ -6,13 +6,13 @@ Compilez le projet.
 $ make
 ```
 
-Lancer JLinkGDBServer pour le coeur 0 :
+Lancez JLinkGDBServer pour le coeur 0 :
 
 ```
 $ make server
 ```
 
-Dans un nouveau terminal, ouvrir une session GDB (qui va servir à reprogrammer la carte et à inspecter l'état du coeur 0) :
+Dans un nouveau terminal, ouvrez une session GDB (qui va servir à reprogrammer la carte et à inspecter l'état du coeur 0) :
 
 ```
 $ cd core0
