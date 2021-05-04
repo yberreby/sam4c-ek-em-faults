@@ -21,6 +21,7 @@ CSRCS = \
        common/utils/stdio/write.c                                 \
        sam/boards/sam4c_ek/init.c                                 \
        sam/drivers/efc/efc.c                                      \
+       sam/drivers/ipc/ipc.c                                      \
        sam/drivers/pio/pio.c                                      \
        sam/drivers/pio/pio_handler.c                              \
        sam/drivers/pmc/pmc.c                                      \
@@ -49,6 +50,7 @@ INC_PATH = \
        sam/boards/sam4c_ek                                \
        sam/drivers/cmcc                                   \
        sam/drivers/efc                                    \
+       sam/drivers/ipc                                    \
        sam/drivers/pio                                    \
        sam/drivers/pmc                                    \
        sam/drivers/rstc                                   \

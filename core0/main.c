@@ -7,6 +7,7 @@
 #include <efc.h>
 #include <genclk.h>
 #include <interrupt.h>
+#include <ipc.h>
 #include <ioport.h>
 #include <led.h>
 #include <parts.h>
@@ -67,6 +68,20 @@ asm("nop");
 asm("nop");
 }
 
+
+
+
+static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
+{
+// Does not return.
+// Pure asm.
+run_test_seq();
+
+   
+   ipc_clear_command(p, mask);
+}
+
+
 int main(void) {
     // Set up the clocks.
     // This will also enable the coprocessor clock according to the
@@ -81,6 +96,12 @@ int main(void) {
     cmcc_disable(CMCC1);
 
     setup_clock_pin();
+    
+    
+    ipc_enable(IPC0);
+    ipc_set_handler(IPC0, IPC_INTERRUPT_SRC_IRQ0, ipc_core1_signal_handler);
+    ipc_enable_interrupt(IPC0, IPC_INTERRUPT_SRC_IRQ0);
+    NVIC_EnableIRQ(IPC0_IRQn);
 
 
     // init_aes();
@@ -94,25 +115,20 @@ int main(void) {
     // efc_set_wait_state(EFC, 6);
 
     /* Set up output pins */
+    // TODO: handle both cores here
     ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
     ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
     ioport_enable_pin(TRIGGER_PIN);
     ioport_enable_pin(STATUS_PIN);
 
-    // Hand off control to core1.
-    //copy_core1_image_into_sram1();
-    //rstc_deassert_reset_of_coprocessor(
-    //    RSTC,
-    //    RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
-    //    );
+    // Start core1.
+    copy_core1_image_into_sram1();
+    rstc_deassert_reset_of_coprocessor(
+        RSTC,
+        RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
+    );
 
-    //enable_pioc_output();
-
-    // Does not return.
-    // Pure asm.
-    run_test_seq();
-
-    // Block.
+    // Block. We'll want to wait for a signal from core1.
     while (1);
 
     // Unreachable.

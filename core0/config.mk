@@ -15,7 +15,6 @@ TARGET_SRAM = emfi_core0_sram.elf
 CSRCS = \
        ../core0/main.c                                    \
        ../common/src/test_aes.c                           \
-	drivers/ipc/ipc.c                                  \
        common/services/clock/sam4c/sysclk.c               \
        common/utils/interrupt/interrupt_sam_nvic.c        \
        common/utils/stdio/read.c                          \
@@ -23,6 +22,7 @@ CSRCS = \
        sam/boards/sam4c_ek/init.c                         \
        sam/drivers/aes/aes.c                              \
        sam/drivers/efc/efc.c                              \
+       sam/drivers/ipc/ipc.c                              \
        sam/drivers/pio/pio.c                              \
        sam/drivers/pio/pio_handler.c                      \
        sam/drivers/pmc/pmc.c                              \
@@ -55,6 +55,7 @@ INC_PATH = \
        sam/drivers/aes                                    \
        sam/drivers/cmcc                                   \
        sam/drivers/efc                                    \
+       sam/drivers/ipc                                    \
        sam/drivers/pio                                    \
        sam/drivers/pmc                                    \
        sam/drivers/rstc                                   \

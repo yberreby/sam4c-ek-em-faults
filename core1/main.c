@@ -6,6 +6,7 @@
 #include <efc.h>
 #include <genclk.h>
 #include <interrupt.h>
+#include <ipc.h>
 #include <ioport.h>
 #include <led.h>
 #include <parts.h>
@@ -21,6 +22,10 @@
 
 
 int main(void) {
+    // Immediately before running our test sequence, we tell core0 to start
+    // running its own.
+    ipc_set_command(IPC0, IPC_INTERRUPT_SRC_IRQ0);
+    
     // Does not return.
     // Pure asm.
     run_test_seq();
