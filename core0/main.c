@@ -1,5 +1,6 @@
 #include "test_seq.h"
 #include "test_aes.h"
+#include "emfi_constants.h"
 
 #include <board.h>
 #include <cmcc.h>
@@ -21,15 +22,17 @@
 #include <sysclk.h>
 #include <tc.h>
 
-// Original
-#define CLOCK_PIN      IOPORT_CREATE_PIN(PIOA, 29)
-//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
-//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
 
-//#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 6)
-//#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 7)
-#define TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
-#define STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
+// Pin definitions.
+#define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
+#define CORE0_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
+#define CORE0_STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
+#define CORE1_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
+#define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
+
+
+// Symbol used by test_seq.S
+uint32_t pio_output_base = PIOB_OUTPUT_BASE;
 
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
@@ -39,11 +42,19 @@ static void copy_core1_image_into_sram1(void) {
         (char *)IRAM1_ADDR,
         (char *)&core1_image_start,
         (int)&core1_image_end - (int)&core1_image_start
-        );
+    );
+}
+
+static void start_core1() {
+    copy_core1_image_into_sram1();
+    rstc_deassert_reset_of_coprocessor(
+        RSTC,
+        RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
+    );
 }
 
 
-void setup_clock_pin() {
+static void setup_clock_pin() {
     // genclk enables us to route a clock signal to an output pin.
     genclk_enable_config(
         GENCLK_PCK_1,
@@ -61,26 +72,29 @@ volatile bool ecb_ciph_ok = false;
 volatile bool ecb_deciph_ok = false;
 
 
-void enable_pioc_output() {
-
-asm("nop");
-    ioport_set_pin_level(STATUS_PIN, 1);
-asm("nop");
-}
-
-
-
-
 static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
 {
-// Does not return.
-// Pure asm.
-run_test_seq();
-
+   // Does not return.
+   // Pure asm.
+   run_test_seq();
    
+   // This will never actually get called...
    ipc_clear_command(p, mask);
 }
 
+
+void setup_output_pin(int pin) {
+    ioport_set_pin_dir(pin, IOPORT_DIR_OUTPUT);
+    ioport_enable_pin(pin);
+}
+
+
+static void setup_ipc() {
+    ipc_enable(IPC0);
+    ipc_set_handler(IPC0, IPC_INTERRUPT_SRC_IRQ0, ipc_core1_signal_handler);
+    ipc_enable_interrupt(IPC0, IPC_INTERRUPT_SRC_IRQ0);
+    NVIC_EnableIRQ(IPC0_IRQn);
+}
 
 int main(void) {
     // Set up the clocks.
@@ -94,41 +108,26 @@ int main(void) {
     // Disable cache controller for both cores.
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
-
-    setup_clock_pin();
     
-    
-    ipc_enable(IPC0);
-    ipc_set_handler(IPC0, IPC_INTERRUPT_SRC_IRQ0, ipc_core1_signal_handler);
-    ipc_enable_interrupt(IPC0, IPC_INTERRUPT_SRC_IRQ0);
-    NVIC_EnableIRQ(IPC0_IRQn);
+    // Prepare NVIC, interrupt handler for IPC.
+    setup_ipc();
 
-
-    // init_aes();
-    // ecb_ciph_ok = check_ecb_encryption();
-    // ecb_deciph_ok = check_ecb_decryption();
-
-    // while (1);
 
 
     // // FWS = cycles -1
     // efc_set_wait_state(EFC, 6);
 
-    /* Set up output pins */
-    // TODO: handle both cores here
-    ioport_set_pin_dir(TRIGGER_PIN, IOPORT_DIR_OUTPUT);
-    ioport_set_pin_dir(STATUS_PIN,  IOPORT_DIR_OUTPUT);
-    ioport_enable_pin(TRIGGER_PIN);
-    ioport_enable_pin(STATUS_PIN);
+    // Set up output pins for both cores.
+    setup_clock_pin();
+    setup_output_pin(CORE0_STATUS_PIN);
+    setup_output_pin(CORE0_TRIGGER_PIN);
+    setup_output_pin(CORE1_STATUS_PIN);
+    setup_output_pin(CORE1_TRIGGER_PIN);
 
-    // Start core1.
-    copy_core1_image_into_sram1();
-    rstc_deassert_reset_of_coprocessor(
-        RSTC,
-        RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
-    );
+    start_core1();
 
     // Block. We'll want to wait for a signal from core1.
+    // XXX: this could just be a busy wait.
     while (1);
 
     // Unreachable.
@@ -183,3 +182,11 @@ int main(void) {
    }
 
  */
+
+
+    // init_aes();
+    // ecb_ciph_ok = check_ecb_encryption();
+    // ecb_deciph_ok = check_ecb_decryption();
+
+    // while (1);
+

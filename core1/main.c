@@ -1,4 +1,5 @@
 #include "test_seq.h"
+#include "emfi_constants.h"
 
 #include <board.h>
 #include <cmcc.h>
@@ -19,6 +20,11 @@
 #include <string.h>
 #include <sysclk.h>
 #include <tc.h>
+
+
+
+// Symbol used by test_seq.S
+void* pio_output_base = PIOC_OUTPUT_BASE;
 
 
 int main(void) {

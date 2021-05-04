@@ -101,11 +101,11 @@ run_test_seq:
 
   bl initialize_registers
 
-  //
-  // Load base address for PIOB registers into R10.
-  //
-  //ldr  R10,=piob_output_base
-  ldr  R10,=pioc_output_base
+  // Load base address for PIO{A,B,C} registers into R10.
+  // pio_output_base is an externally-defined symbol,
+  // that lets us choose one of those three PIO modules
+  // at linking time.
+  ldr  R10,=pio_output_base
   ldr  R10,[R10]
 
 
