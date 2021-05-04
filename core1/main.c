@@ -26,16 +26,22 @@
 // Symbol used by test_seq.S
 uint32_t pio_output_base = PIOC_OUTPUT_BASE;
 
+uint32_t trigger_pin_mask = 1UL << 2;
+uint32_t status_pin_mask   = 1UL << 3;
+
 
 #define CORE1_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
 #define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
 int main(void) {
     setup_output_pin(CORE1_TRIGGER_PIN);
-    setup_output_pin(CORE1_STATUS_PIN);
+    //setup_output_pin(CORE1_STATUS_PIN);
 
-    trigger_010_pulse(CORE1_STATUS_PIN);
-    trigger_010_pulse(CORE1_TRIGGER_PIN);
+
+    ioport_set_pin_level(CORE1_TRIGGER_PIN, 1);
+
+    //trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //trigger_010_pulse(CORE1_STATUS_PIN);
 
     // Immediately before running our test sequence, we tell core0 to start
     // running its own.

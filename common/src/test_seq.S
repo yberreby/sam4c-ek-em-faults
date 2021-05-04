@@ -110,10 +110,19 @@ run_test_seq:
 
 
   // Pulse trigger pin: PC2
+
+  ldr  R12,=trigger_pin_mask
+  ldr  R12,[R12]
+
+
   mov R12, #(1<<2)
 
   // Status pin:  PC3
   mov R11, #(1<<3)
+
+
+  ldr  R11,=status_pin_mask
+  ldr  R11,[R11]
 
 
   

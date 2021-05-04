@@ -31,6 +31,8 @@
 
 // Symbol used by test_seq.S
 uint32_t pio_output_base = PIOB_OUTPUT_BASE;
+uint32_t trigger_pin_mask = 1UL << 6;
+uint32_t status_pin_mask   = 1UL << 12;
 
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
@@ -72,9 +74,11 @@ volatile bool ecb_deciph_ok = false;
 
 static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
 {
+
+    ioport_set_pin_level(CORE0_TRIGGER_PIN, 1);
    // Does not return.
    // Pure asm.
-   run_test_seq();
+   //run_test_seq();
    
    // This will never actually get called...
    ipc_clear_command(p, mask);
