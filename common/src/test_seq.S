@@ -108,18 +108,10 @@ run_test_seq:
   ldr  R10,=pio_output_base
   ldr  R10,[R10]
 
-
-  // Pulse trigger pin: PC2
-
+  // trigger_pin_mask  and status_pin_mask are also externally defined.
+  // To use pin N of a given PIO, you need a (1 << N) mask.
   ldr  R12,=trigger_pin_mask
   ldr  R12,[R12]
-
-
-  mov R12, #(1<<2)
-
-  // Status pin:  PC3
-  mov R11, #(1<<3)
-
 
   ldr  R11,=status_pin_mask
   ldr  R11,[R11]
@@ -132,7 +124,7 @@ run_test_seq:
   //
   str.w  R11,[R10, #52]
   str.w  R11,[R10, #48]
-  str.w  R11,[R10, #52]
+  //str.w  R11,[R10, #52]
   nop.w
   nop.w
 
