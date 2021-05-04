@@ -34,6 +34,14 @@ int main(void) {
     setup_output_pin(CORE1_TRIGGER_PIN);
     setup_output_pin(CORE1_STATUS_PIN);
 
+    ioport_set_pin_level(CORE1_STATUS_PIN, 0);
+    ioport_set_pin_level(CORE1_STATUS_PIN, 1);
+    ioport_set_pin_level(CORE1_STATUS_PIN, 0);
+
+    ioport_set_pin_level(CORE1_TRIGGER_PIN, 0);
+    ioport_set_pin_level(CORE1_TRIGGER_PIN, 1);
+    ioport_set_pin_level(CORE1_TRIGGER_PIN, 0);
+
     // Immediately before running our test sequence, we tell core0 to start
     // running its own.
     ipc_set_command(IPC0, IPC_INTERRUPT_SRC_IRQ0);
