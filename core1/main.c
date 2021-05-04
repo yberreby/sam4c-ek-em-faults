@@ -34,13 +34,8 @@ int main(void) {
     setup_output_pin(CORE1_TRIGGER_PIN);
     setup_output_pin(CORE1_STATUS_PIN);
 
-    ioport_set_pin_level(CORE1_STATUS_PIN, 0);
-    ioport_set_pin_level(CORE1_STATUS_PIN, 1);
-    ioport_set_pin_level(CORE1_STATUS_PIN, 0);
-
-    ioport_set_pin_level(CORE1_TRIGGER_PIN, 0);
-    ioport_set_pin_level(CORE1_TRIGGER_PIN, 1);
-    ioport_set_pin_level(CORE1_TRIGGER_PIN, 0);
+    trigger_010_pulse(CORE1_STATUS_PIN);
+    trigger_010_pulse(CORE1_TRIGGER_PIN);
 
     // Immediately before running our test sequence, we tell core0 to start
     // running its own.
