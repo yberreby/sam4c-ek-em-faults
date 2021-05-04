@@ -29,16 +29,6 @@ const15: .word   0xF07FF70F
 const16: .word   0xF0FFFF0F
 const17: .word   0x11111118
 
-
-pioa_output_base:
-  .word 0x400E0E00
-
-piob_output_base:
-  .word 0x400e1000
-
-pioc_output_base:
-  .word 0x4800C000
-
 .set STATE_TARGET_POS, 0x20160000
 .set STATE_TARGET_INIT, 0xAAAAAAAA
 .set FAULT_CANARY, 0xFAFAFAFA
@@ -110,11 +100,12 @@ run_test_seq:
 
   // trigger_pin_mask  and status_pin_mask are also externally defined.
   // To use pin N of a given PIO, you need a (1 << N) mask.
-  ldr  R12,=trigger_pin_mask
-  ldr  R12,[R12]
 
-  ldr  R11,=status_pin_mask
+  ldr  R11,=trigger_pin_mask
   ldr  R11,[R11]
+
+  ldr  R12,=status_pin_mask
+  ldr  R12,[R12]
 
 
   

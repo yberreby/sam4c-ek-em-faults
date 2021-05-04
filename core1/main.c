@@ -25,8 +25,7 @@
 
 // Symbol used by test_seq.S
 uint32_t pio_output_base = PIOC_OUTPUT_BASE;
-
-uint32_t trigger_pin_mask = 1UL << 2;
+uint32_t trigger_pin_mask  = 1UL << 2;
 uint32_t status_pin_mask   = 1UL << 3;
 
 
@@ -37,19 +36,16 @@ int main(void) {
     setup_output_pin(CORE1_TRIGGER_PIN);
     //setup_output_pin(CORE1_STATUS_PIN);
 
-
-    ioport_set_pin_level(CORE1_TRIGGER_PIN, 1);
-
-    //trigger_010_pulse(CORE1_TRIGGER_PIN);
+    trigger_010_pulse(CORE1_TRIGGER_PIN);
     //trigger_010_pulse(CORE1_STATUS_PIN);
+    // Does not return.
+    // Pure asm.
+    //run_test_seq();
 
     // Immediately before running our test sequence, we tell core0 to start
     // running its own.
     ipc_set_command(IPC0, IPC_INTERRUPT_SRC_IRQ0);
     
-    // Does not return.
-    // Pure asm.
-    run_test_seq();
 
     // Unreachable.
     return 0;

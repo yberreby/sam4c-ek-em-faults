@@ -75,7 +75,7 @@ volatile bool ecb_deciph_ok = false;
 static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
 {
 
-    ioport_set_pin_level(CORE0_TRIGGER_PIN, 1);
+   trigger_010_pulse(CORE0_TRIGGER_PIN);
    // Does not return.
    // Pure asm.
    //run_test_seq();
