@@ -1,6 +1,6 @@
 #include "test_seq.h"
 #include "test_aes.h"
-#include "emfi_constants.h"
+#include "emfi_utils.h"
 
 #include <board.h>
 #include <cmcc.h>
@@ -27,8 +27,6 @@
 #define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
 #define CORE0_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
 #define CORE0_STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
-#define CORE1_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
-#define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
 
 // Symbol used by test_seq.S
@@ -83,10 +81,12 @@ static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
 }
 
 
-void setup_output_pin(int pin) {
-    ioport_set_pin_dir(pin, IOPORT_DIR_OUTPUT);
-    ioport_enable_pin(pin);
+// Unused for now.
+static void set_long_flash_wait_states() {
+  // FWS = cycles -1
+  efc_set_wait_state(EFC, 6);
 }
+
 
 
 static void setup_ipc() {
@@ -112,17 +112,12 @@ int main(void) {
     // Prepare NVIC, interrupt handler for IPC.
     setup_ipc();
 
+    // set_long_flash_wait_states()
 
-
-    // // FWS = cycles -1
-    // efc_set_wait_state(EFC, 6);
-
-    // Set up output pins for both cores.
+    // Set up output pins for this core only.
     setup_clock_pin();
     setup_output_pin(CORE0_STATUS_PIN);
     setup_output_pin(CORE0_TRIGGER_PIN);
-    setup_output_pin(CORE1_STATUS_PIN);
-    setup_output_pin(CORE1_TRIGGER_PIN);
 
     start_core1();
 
