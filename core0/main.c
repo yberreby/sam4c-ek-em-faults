@@ -25,12 +25,8 @@
 
 // Pin definitions.
 #define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
-#define CORE0_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 6)
-#define CORE0_STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 12)
-
-// XXX: Redundant
-#define CORE1_TRIGGER_PIN     IOPORT_CREATE_PIN(PIOC, 2)
-#define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
+#define CORE0_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOB, 18)
+#define CORE0_STATUS_PIN     IOPORT_CREATE_PIN(PIOB, 19)
 
 extern uint8_t core1_image_start;
 extern uint8_t core1_image_end;
