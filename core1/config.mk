@@ -37,6 +37,7 @@ CSRCS = \
 
 # List of assembler source files.
 ASSRCS = \
+	../core1/symbols.S                                 \
 	../common/src/test_seq.S
 
 # List of include paths.

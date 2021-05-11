@@ -57,3 +57,14 @@ Lors d'une exception ou de la fin d'une séquence de test, la procédure `run_te
 | 0x2016002c | R8       |
 | 0x20160030 | R9       |
 | 0x20160034 | XPSR     |
+
+
+
+## Random information
+
+
+```
+#define PIOA_OUTPUT_BASE 0x400E0E00UL
+#define PIOB_OUTPUT_BASE 0x400e1000UL
+#define PIOC_OUTPUT_BASE 0x4800C000UL
+```

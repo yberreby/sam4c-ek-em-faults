@@ -96,17 +96,22 @@ run_test_seq:
   // that lets us choose one of those three PIO modules
   // at linking time.
   ldr  R10,=pio_output_base
-  ldr  R10,[R10]
+  //ldr  R10,[R10]
 
   // trigger_pin_mask  and status_pin_mask are also externally defined.
   // To use pin N of a given PIO, you need a (1 << N) mask.
 
   ldr  R11,=trigger_pin_mask
-  ldr  R11,[R11]
+  //ldr  R11,[R11]
+
+  //mov R11, #(1 << 2)
+  //mov R12, #(1 << 2)
 
   ldr  R12,=status_pin_mask
-  ldr  R12,[R12]
+  //ldr  R12,[R12]
 
+// loop1:
+//  b loop1
 
   
 //trig:
@@ -115,7 +120,7 @@ run_test_seq:
   //
   str.w  R11,[R10, #52]
   str.w  R11,[R10, #48]
-  //str.w  R11,[R10, #52]
+  str.w  R11,[R10, #52]
   nop.w
   nop.w
 
