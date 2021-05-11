@@ -16,11 +16,13 @@ TARGET_SRAM = emfi_core1_sram.elf
 CSRCS = \
 	../core1/main.c                                            \
 	../common/src/emfi_utils.c                                 \
+	../common/src/test_aes.c                                 \
        common/services/clock/sam4c/sysclk.c                       \
        common/utils/interrupt/interrupt_sam_nvic.c                \
        common/utils/stdio/read.c                                  \
        common/utils/stdio/write.c                                 \
        sam/boards/sam4c_ek/init.c                                 \
+       sam/drivers/aes/aes.c                              \
        sam/drivers/efc/efc.c                                      \
        sam/drivers/ipc/ipc.c                                      \
        sam/drivers/pio/pio.c                                      \
@@ -37,6 +39,7 @@ CSRCS = \
 
 # List of assembler source files.
 ASSRCS = \
+	../common/src/symbols.S                            \
 	../core1/symbols.S                                 \
 	../common/src/test_seq.S
 
@@ -46,10 +49,12 @@ INC_PATH = \
        common/boards                                      \
        common/services/clock                              \
        common/services/ioport                             \
+       common/services/sleepmgr                           \
        common/utils                                       \
        common/utils/stdio/stdio_serial                    \
        sam/boards                                         \
        sam/boards/sam4c_ek                                \
+       sam/drivers/aes                                    \
        sam/drivers/cmcc                                   \
        sam/drivers/efc                                    \
        sam/drivers/ipc                                    \

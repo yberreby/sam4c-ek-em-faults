@@ -62,22 +62,6 @@ static void setup_clock_pin() {
     ioport_disable_pin(CLOCK_PIN);
 }
 
-volatile bool ecb_ciph_ok = false;
-volatile bool ecb_deciph_ok = false;
-
-
-static void ipc_core1_signal_handler(Ipc *p, enum ipc_interrupt_source mask)
-{
-
-   // This will never actually get called...
-   ipc_clear_command(p, mask);
-
-   // Does not return.
-   // Pure asm.
-   run_test_seq();
-   
-}
-
 
 // Unused for now.
 static void set_long_flash_wait_states() {
@@ -86,13 +70,7 @@ static void set_long_flash_wait_states() {
 }
 
 
-
-static void setup_ipc() {
-    ipc_enable(IPC0);
-    ipc_set_handler(IPC0, IPC_INTERRUPT_SRC_IRQ0, ipc_core1_signal_handler);
-    ipc_enable_interrupt(IPC0, IPC_INTERRUPT_SRC_IRQ0);
-    NVIC_EnableIRQ(IPC0_IRQn);
-}
+extern volatile uint32_t core_sync_flag;
 
 int main(void) {
     // Set up the clocks.
@@ -107,8 +85,7 @@ int main(void) {
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
     
-    // Prepare NVIC, interrupt handler for IPC.
-    setup_ipc();
+    init_aes();
 
     // set_long_flash_wait_states()
 
@@ -117,11 +94,23 @@ int main(void) {
     setup_output_pin(CORE0_STATUS_PIN);
     setup_output_pin(CORE0_TRIGGER_PIN);
 
+
+    core_sync_flag = 0;
     start_core1();
 
-    // Block. We'll want to wait for a signal from core1.
-    // XXX: this could just be a busy wait.
-    while (1);
+    // Busy wait. Faster than IPC.
+    // Wait for a signal from core1.
+    while (core_sync_flag != 0xDEADBEEF);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+
+    //if (check_ecb_encryption()) {
+    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    //} else {
+    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    //}
+
+    //run_test_seq();
 
     // Unreachable.
     return 0;

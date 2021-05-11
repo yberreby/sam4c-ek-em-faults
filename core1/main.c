@@ -1,4 +1,5 @@
 #include "test_seq.h"
+#include "test_aes.h"
 #include "emfi_utils.h"
 
 #include <board.h>
@@ -24,36 +25,37 @@
 #define CORE1_TRIGGER_PIN    IOPORT_CREATE_PIN(PIOC, 2)
 #define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
+extern volatile uint32_t core_sync_flag;
+
 int main(void) {
     setup_output_pin(CORE1_TRIGGER_PIN);
     setup_output_pin(CORE1_STATUS_PIN);
 
+    // Tell core0 to run.
+    core_sync_flag = 0xDEADBEEF;
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    trigger_010_pulse(CORE1_TRIGGER_PIN);
 
-    // Immediately before running our test sequence, we tell core0 to start
-    // running its own.
-    ipc_set_command(IPC0, IPC_INTERRUPT_SRC_IRQ0);
 
 
-    for (int i = 0; i < 40; i++) {
-        asm("nop");
-    }
-
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-
+    //if (check_ecb_encryption()) {
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //} else {
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //}
+    //trigger_010_pulse(CORE1_TRIGGER_PIN);
 
 
     // Does not return.
     // Pure asm.
-    run_test_seq();
+    //run_test_seq();
 
     
 

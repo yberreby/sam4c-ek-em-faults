@@ -1,3 +1,4 @@
+#include "test_aes.h"
 #include <aes.h>
 
 /** Cipher 128 bits key array. */
