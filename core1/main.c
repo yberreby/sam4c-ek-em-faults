@@ -27,49 +27,7 @@
 
 extern volatile uint32_t core_sync_flag;
 
-
-extern uint32_t _sfixed;
-extern uint32_t _efixed;
-extern uint32_t _etext;
-extern uint32_t _srelocate;
-extern uint32_t _erelocate;
-extern uint32_t _szero;
-extern uint32_t _ezero;
-extern uint32_t _sstack;
-extern uint32_t _estack;
-
-
-
-void init_relocate() {
-	uint32_t *pSrc, *pDest;
-
-	/* Initialize the relocate segment */
-	pSrc = &_etext;
-	pDest = &_srelocate;
-
-	if (pSrc > pDest) {
-		/* Copy segment block from beginning to end */
-		for (; pDest < &_erelocate;) {
-			*pDest++ = *pSrc++;
-		}
-	} else if (pSrc < pDest) {
-		/* Copy segment block from end to beginning */
-		uint32_t bytes_relocate = (uint32_t)&_erelocate - (uint32_t)&_srelocate;
-		pSrc = (uint32_t*)((uint32_t)pSrc + bytes_relocate) - 1;
-		pDest = (uint32_t*)((uint32_t)pDest + bytes_relocate) - 1;
-
-		for (; bytes_relocate; bytes_relocate -= 4) {
-			*pDest-- = *pSrc--;
-		}
-	}
-
-}
-
-
 int main(void) {
-    //init_relocate();
-
-
     setup_output_pin(CORE1_TRIGGER_PIN);
     setup_output_pin(CORE1_STATUS_PIN);
 
