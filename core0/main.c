@@ -85,7 +85,7 @@ int main(void) {
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
     
-    init_aes();
+    //init_aes();
 
     // set_long_flash_wait_states()
 
@@ -109,6 +109,8 @@ int main(void) {
     //    trigger_010_pulse(CORE0_TRIGGER_PIN);
     //    trigger_010_pulse(CORE0_TRIGGER_PIN);
     //}
+
+    while (1);
 
     //run_test_seq();
 
