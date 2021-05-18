@@ -49,8 +49,8 @@ void init_aes() {
 }
 
 
-
-bool check_ecb_encryption() {
+// Does the setup without actually starting.
+void prep_ecb_encryption() {
     aes_output_ready = false;
 
     /* Configure the AES. */
@@ -69,6 +69,11 @@ bool check_ecb_encryption() {
 
     /* Write the data to be ciphered to the input data registers. */
     aes_write_input_data(AES, ref_plain_text);
+}
+
+
+bool check_ecb_encryption() {
+    prep_ecb_encryption();
 
     aes_start(AES);
 
@@ -87,7 +92,7 @@ bool check_ecb_encryption() {
 }
 
 
-bool check_ecb_decryption() {
+void prep_ecb_decryption() {
     aes_output_ready = false;
 
     /* Configure the AES. */
@@ -106,8 +111,10 @@ bool check_ecb_decryption() {
 
     /* Write the data to be deciphered to the input data registers. */
     aes_write_input_data(AES, ref_cipher_text_ecb);
+}
 
-
+bool check_ecb_decryption() {
+    prep_ecb_decryption();
     aes_start(AES);
 
     /* Wait for the end of the decryption process. */
