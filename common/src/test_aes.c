@@ -9,7 +9,7 @@ const uint32_t key128[4] = {
     0x3c4fcf09
 };
 
-volatile bool aes_output_ready = false;
+extern volatile bool aes_output_ready;
 
 
 #define AES_EXAMPLE_REFBUF_SIZE 4
@@ -47,8 +47,7 @@ void init_aes() {
 
 
     /* Enable AES interrupt. */
-    aes_set_callback(AES, AES_INTERRUPT_DATA_READY,
-                     (aes_callback_t)((char*)(aes_callback) + 0x20080000), 1);
+    aes_set_callback(AES, AES_INTERRUPT_DATA_READY, aes_callback, 1);
 }
 
 

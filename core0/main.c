@@ -85,7 +85,9 @@ int main(void) {
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
     
-    //init_aes();
+    // Initializing the AES coprocessor from core0
+    // saves us a LOT of trouble down the road.
+    init_aes();
 
     // set_long_flash_wait_states()
 
@@ -102,13 +104,22 @@ int main(void) {
     // Wait for a signal from core1.
     while (core_sync_flag != 0xDEADBEEF);
     trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
 
-    //if (check_ecb_encryption()) {
-    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    //} else {
-    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    //    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    //}
+    if (check_ecb_encryption()) {
+        trigger_010_pulse(CORE0_TRIGGER_PIN);
+    } else {
+        trigger_010_pulse(CORE0_TRIGGER_PIN);
+        trigger_010_pulse(CORE0_TRIGGER_PIN);
+    }
+
+
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
+    trigger_010_pulse(CORE0_TRIGGER_PIN);
 
     while (1);
 

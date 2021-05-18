@@ -86,18 +86,18 @@ int main(void) {
     trigger_010_pulse(CORE1_TRIGGER_PIN);
 
 
-    init_aes();
+    // init_aes();
 
 
-    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    // trigger_010_pulse(CORE1_TRIGGER_PIN);
 
-    if (check_ecb_decryption()) {
-        trigger_010_pulse(CORE1_TRIGGER_PIN);
-    } else {
-        trigger_010_pulse(CORE1_TRIGGER_PIN);
-        trigger_010_pulse(CORE1_TRIGGER_PIN);
-    }
-    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    // if (check_ecb_decryption()) {
+    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
+    // } else {
+    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
+    // }
+    // trigger_010_pulse(CORE1_TRIGGER_PIN);
 
 
     // Does not return.
