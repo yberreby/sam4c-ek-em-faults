@@ -49,13 +49,14 @@ void init_aes() {
 }
 
 
+
 bool check_ecb_encryption() {
     aes_output_ready = false;
 
     /* Configure the AES. */
     g_aes_cfg.encrypt_mode = AES_ENCRYPTION;
     g_aes_cfg.key_size = AES_KEY_SIZE_128;
-    g_aes_cfg.start_mode = AES_AUTO_START;
+    g_aes_cfg.start_mode = AES_MANUAL_START;
     g_aes_cfg.opmode = AES_ECB_MODE;
     g_aes_cfg.cfb_size = AES_CFB_SIZE_128;
     g_aes_cfg.lod = false;
@@ -68,6 +69,8 @@ bool check_ecb_encryption() {
 
     /* Write the data to be ciphered to the input data registers. */
     aes_write_input_data(AES, ref_plain_text);
+
+    aes_start(AES);
 
     /* Wait for the end of the encryption process. */
     while (false == aes_output_ready) {
@@ -90,7 +93,7 @@ bool check_ecb_decryption() {
     /* Configure the AES. */
     g_aes_cfg.encrypt_mode = AES_DECRYPTION;
     g_aes_cfg.key_size = AES_KEY_SIZE_128;
-    g_aes_cfg.start_mode = AES_AUTO_START;
+    g_aes_cfg.start_mode = AES_MANUAL_START;
     g_aes_cfg.opmode = AES_ECB_MODE;
     g_aes_cfg.cfb_size = AES_CFB_SIZE_128;
     g_aes_cfg.lod = false;
@@ -103,6 +106,9 @@ bool check_ecb_decryption() {
 
     /* Write the data to be deciphered to the input data registers. */
     aes_write_input_data(AES, ref_cipher_text_ecb);
+
+
+    aes_start(AES);
 
     /* Wait for the end of the decryption process. */
     while (false == aes_output_ready) {}
