@@ -2,6 +2,7 @@
 #include "test_aes.h"
 #include "emfi_utils.h"
 
+#include <aes.h>
 #include <board.h>
 #include <cmcc.h>
 #include <compiler.h>
@@ -26,14 +27,15 @@
 #define CORE1_STATUS_PIN     IOPORT_CREATE_PIN(PIOC, 3)
 
 extern volatile uint32_t core_sync_flag;
+extern volatile bool aes_output_ready;
 
 int main(void) {
+    // Set up pins.
     setup_output_pin(CORE1_TRIGGER_PIN);
     setup_output_pin(CORE1_STATUS_PIN);
 
-    // Tell core0 to run.
+    // Tell core0 to resume running.
     core_sync_flag = 0xDEADBEEF;
-    //core_sync_flag = 0xF0F0F0F0;
     asm("nop");
     asm("nop");
     asm("nop");
@@ -41,18 +43,18 @@ int main(void) {
     asm("nop");
     asm("nop");
     asm("nop");
+    // This pulse is here to help us synchronize the two cores.
     trigger_010_pulse(CORE1_TRIGGER_PIN);
 
 
-    //init_aes();
+    // Manually start encryption or decryption process.
+    aes_start(AES);
 
-    //if (check_ecb_encryption()) {
-    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
-    //} else {
-    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
-    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
-    //}
-
+    // This pulse to mark the start of our waiting.
+    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    while (!aes_output_ready);
+    // Pulse to show the data is ready.
+    trigger_010_pulse(CORE1_TRIGGER_PIN);
 
     // Does not return.
     // Pure asm.

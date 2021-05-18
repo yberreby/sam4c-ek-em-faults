@@ -2,6 +2,7 @@
 #include "test_aes.h"
 #include "emfi_utils.h"
 
+#include <aes.h>
 #include <board.h>
 #include <cmcc.h>
 #include <compiler.h>
@@ -21,7 +22,6 @@
 #include <string.h>
 #include <sysclk.h>
 #include <tc.h>
-
 
 // Pin definitions.
 #define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
@@ -96,6 +96,7 @@ int main(void) {
     setup_output_pin(CORE0_STATUS_PIN);
     setup_output_pin(CORE0_TRIGGER_PIN);
 
+    prep_ecb_encryption();
 
     core_sync_flag = 0;
     start_core1();
@@ -105,12 +106,6 @@ int main(void) {
     while (core_sync_flag != 0xDEADBEEF);
     trigger_010_pulse(CORE0_TRIGGER_PIN);
 
-    if (check_ecb_encryption()) {
-        trigger_010_pulse(CORE0_TRIGGER_PIN);
-    } else {
-        trigger_010_pulse(CORE0_TRIGGER_PIN);
-        trigger_010_pulse(CORE0_TRIGGER_PIN);
-    }
 
     while (1);
 
