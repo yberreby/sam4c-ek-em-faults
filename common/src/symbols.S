@@ -3,3 +3,7 @@
 
 .global aes_output_ready
 .set aes_output_ready, 0x20170000
+
+
+.global aes_output_data
+.set aes_output_data, 0x20170010

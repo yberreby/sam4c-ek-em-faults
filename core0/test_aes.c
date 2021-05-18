@@ -1,6 +1,8 @@
 #include "test_aes.h"
 #include <aes.h>
 
+#define AES_EXAMPLE_REFBUF_SIZE 4
+
 /** Cipher 128 bits key array. */
 const uint32_t key128[4] = {
     0x16157e2b,
@@ -10,11 +12,7 @@ const uint32_t key128[4] = {
 };
 
 extern volatile bool aes_output_ready;
-
-
-#define AES_EXAMPLE_REFBUF_SIZE 4
-static uint32_t output_data[AES_EXAMPLE_REFBUF_SIZE];
-
+extern volatile uint32_t aes_output_data[AES_EXAMPLE_REFBUF_SIZE];
 
 uint32_t ref_plain_text[AES_EXAMPLE_REFBUF_SIZE] = {
     0xe2bec16b,
@@ -34,7 +32,7 @@ uint32_t ref_cipher_text_ecb[AES_EXAMPLE_REFBUF_SIZE] = {
 
 static void aes_callback(void) {
     /* Read the output. */
-    aes_read_output_data(AES, output_data);
+    aes_read_output_data(AES, aes_output_data);
     aes_output_ready = true;
 }
 
@@ -75,10 +73,10 @@ bool check_ecb_encryption() {
     while (false == aes_output_ready) {
     }
 
-    if ((ref_cipher_text_ecb[0] != output_data[0]) ||
-        (ref_cipher_text_ecb[1] != output_data[1]) ||
-        (ref_cipher_text_ecb[2] != output_data[2]) ||
-        (ref_cipher_text_ecb[3] != output_data[3])) {
+    if ((ref_cipher_text_ecb[0] != aes_output_data[0]) ||
+        (ref_cipher_text_ecb[1] != aes_output_data[1]) ||
+        (ref_cipher_text_ecb[2] != aes_output_data[2]) ||
+        (ref_cipher_text_ecb[3] != aes_output_data[3])) {
         return false;
     } else {
         return true;
@@ -110,10 +108,10 @@ bool check_ecb_decryption() {
     while (false == aes_output_ready) {}
 
     /* check the result. */
-    if ((ref_plain_text[0] != output_data[0]) ||
-        (ref_plain_text[1] != output_data[1]) ||
-        (ref_plain_text[2] != output_data[2]) ||
-        (ref_plain_text[3] != output_data[3])) {
+    if ((ref_plain_text[0] != aes_output_data[0]) ||
+        (ref_plain_text[1] != aes_output_data[1]) ||
+        (ref_plain_text[2] != aes_output_data[2]) ||
+        (ref_plain_text[3] != aes_output_data[3])) {
         return false;
     } else {
         return true;

@@ -104,9 +104,6 @@ int main(void) {
     // Wait for a signal from core1.
     while (core_sync_flag != 0xDEADBEEF);
     trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
 
     if (check_ecb_encryption()) {
         trigger_010_pulse(CORE0_TRIGGER_PIN);
@@ -114,12 +111,6 @@ int main(void) {
         trigger_010_pulse(CORE0_TRIGGER_PIN);
         trigger_010_pulse(CORE0_TRIGGER_PIN);
     }
-
-
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
-    trigger_010_pulse(CORE0_TRIGGER_PIN);
 
     while (1);
 

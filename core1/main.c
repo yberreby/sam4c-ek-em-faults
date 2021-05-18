@@ -75,6 +75,7 @@ int main(void) {
 
     // Tell core0 to run.
     core_sync_flag = 0xDEADBEEF;
+    //core_sync_flag = 0xF0F0F0F0;
     asm("nop");
     asm("nop");
     asm("nop");
@@ -83,21 +84,16 @@ int main(void) {
     asm("nop");
     asm("nop");
     trigger_010_pulse(CORE1_TRIGGER_PIN);
-    trigger_010_pulse(CORE1_TRIGGER_PIN);
 
 
-    // init_aes();
+    //init_aes();
 
-
-    // trigger_010_pulse(CORE1_TRIGGER_PIN);
-
-    // if (check_ecb_decryption()) {
-    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
-    // } else {
-    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
-    //     trigger_010_pulse(CORE1_TRIGGER_PIN);
-    // }
-    // trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //if (check_ecb_encryption()) {
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //} else {
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //    trigger_010_pulse(CORE1_TRIGGER_PIN);
+    //}
 
 
     // Does not return.
