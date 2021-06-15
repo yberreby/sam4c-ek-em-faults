@@ -18,7 +18,8 @@ server:
 	JLinkGDBServer -device AT91SAM4C16C -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 server_coproc:
-	JLinkGDBServer -JLinkScriptFile SAM4C.JLinkScript -device AT91SAM4C16C -speed 4000 -if swd -port 2345
+	JLinkGDBServer -JLinkScriptFile SAM4C.JLinkScript \
+		-device AT91SAM4C16C -speed 4000 -if swd -port 2345
 
 openocd:
 	openocd -f interface/jlink.cfg -c "transport select swd" -f target/at91sam4cXXX.cfg
