@@ -8,6 +8,7 @@
 #include <compiler.h>
 #include <efc.h>
 #include <genclk.h>
+#include <icm.h>
 #include <interrupt.h>
 #include <ipc.h>
 #include <ioport.h>
@@ -22,6 +23,7 @@
 #include <string.h>
 #include <sysclk.h>
 #include <tc.h>
+#include <trng.h>
 
 // Pin definitions.
 #define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
@@ -36,7 +38,7 @@ static void copy_core1_image_into_sram1(void) {
         (char *)IRAM1_ADDR,
         (char *)&core1_image_start,
         (int)&core1_image_end - (int)&core1_image_start
-    );
+        );
 }
 
 static void start_core1() {
@@ -44,7 +46,7 @@ static void start_core1() {
     rstc_deassert_reset_of_coprocessor(
         RSTC,
         RSTC_CPMR_CPROCEN | RSTC_CPMR_CPEREN
-    );
+        );
 }
 
 
@@ -65,12 +67,45 @@ static void setup_clock_pin() {
 
 // Unused for now.
 static void set_long_flash_wait_states() {
-  // FWS = cycles -1
-  efc_set_wait_state(EFC, 6);
+    // FWS = cycles -1
+    efc_set_wait_state(EFC, 6);
 }
 
 
 extern volatile uint32_t core_sync_flag;
+
+
+void init_trng() {
+    /* Configure PMC */
+    pmc_enable_periph_clk(ID_TRNG);
+
+    /* Enable TRNG */
+    trng_enable(TRNG);
+
+    /* Enable TRNG interrupt */
+    NVIC_DisableIRQ(TRNG_IRQn);
+    NVIC_ClearPendingIRQ(TRNG_IRQn);
+    NVIC_SetPriority(TRNG_IRQn, 0);
+    NVIC_EnableIRQ(TRNG_IRQn);
+    trng_enable_interrupt(TRNG);
+}
+
+volatile uint32_t rand_g;
+
+void TRNG_Handler(void)
+{
+    uint32_t status;
+
+    status = trng_get_interrupt_status(TRNG);
+
+    if ((status & TRNG_ISR_DATRDY) == TRNG_ISR_DATRDY) {
+        rand_g = trng_read_output_data(TRNG);
+        //printf("-- Random Value: %lx --\n\r", );
+    }
+}
+
+
+
 
 int main(void) {
     // Set up the clocks.
@@ -84,10 +119,12 @@ int main(void) {
     // Disable cache controller for both cores.
     cmcc_disable(CMCC0);
     cmcc_disable(CMCC1);
-    
+
     // Initializing the AES coprocessor from core0
     // saves us a LOT of trouble down the road.
     init_aes();
+
+    init_trng();
 
     // set_long_flash_wait_states()
 
@@ -165,9 +202,9 @@ int main(void) {
  */
 
 
-    // init_aes();
-    // ecb_ciph_ok = check_ecb_encryption();
-    // ecb_deciph_ok = check_ecb_decryption();
+// init_aes();
+// ecb_ciph_ok = check_ecb_encryption();
+// ecb_deciph_ok = check_ecb_decryption();
 
-    // while (1);
+// while (1);
 

@@ -23,6 +23,7 @@ CSRCS = \
        sam/boards/sam4c_ek/init.c                         \
        sam/drivers/aes/aes.c                              \
        sam/drivers/efc/efc.c                              \
+       sam/drivers/icm/icm.c                              \
        sam/drivers/ipc/ipc.c                              \
        sam/drivers/pio/pio.c                              \
        sam/drivers/pio/pio_handler.c                      \
@@ -30,6 +31,7 @@ CSRCS = \
        sam/drivers/pmc/sleep.c                            \
        sam/drivers/rstc/rstc.c                            \
        sam/drivers/tc/tc.c                                \
+       sam/drivers/trng/trng.c                            \
        sam/drivers/uart/uart.c                            \
        sam/drivers/usart/usart.c                          \
        sam/utils/cmsis/sam4c/source/templates/gcc/startup_sam4c.c \
@@ -58,11 +60,13 @@ INC_PATH = \
        sam/drivers/aes                                    \
        sam/drivers/cmcc                                   \
        sam/drivers/efc                                    \
+       sam/drivers/icm                                    \
        sam/drivers/ipc                                    \
        sam/drivers/pio                                    \
        sam/drivers/pmc                                    \
        sam/drivers/rstc                                   \
        sam/drivers/tc                                     \
+       sam/drivers/trng                                   \
        sam/drivers/uart                                   \
        sam/drivers/usart                                  \
        sam/utils                                          \

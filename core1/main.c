@@ -36,13 +36,13 @@ int main(void) {
 
     // Tell core0 to resume running.
     core_sync_flag = 0xDEADBEEF;
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
-    asm("nop");
+    asm ("nop");
+    asm ("nop");
+    asm ("nop");
+    asm ("nop");
+    asm ("nop");
+    asm ("nop");
+    asm ("nop");
     // This pulse is here to help us synchronize the two cores.
     trigger_010_pulse(CORE1_TRIGGER_PIN);
 
@@ -61,7 +61,7 @@ int main(void) {
     //run_test_seq();
 
     while (1);
-    
+
 
     // Unreachable.
     return 0;
