@@ -1,5 +1,6 @@
 #include "test_seq.h"
 #include "test_aes.h"
+#include "test_trng.h"
 #include "emfi_utils.h"
 
 #include <aes.h>
@@ -23,7 +24,6 @@
 #include <string.h>
 #include <sysclk.h>
 #include <tc.h>
-#include <trng.h>
 
 // Pin definitions.
 #define CLOCK_PIN            IOPORT_CREATE_PIN(PIOA, 29)
@@ -73,39 +73,6 @@ static void set_long_flash_wait_states() {
 
 
 extern volatile uint32_t core_sync_flag;
-
-
-void init_trng() {
-    /* Configure PMC */
-    pmc_enable_periph_clk(ID_TRNG);
-
-    /* Enable TRNG */
-    trng_enable(TRNG);
-
-    /* Enable TRNG interrupt */
-    NVIC_DisableIRQ(TRNG_IRQn);
-    NVIC_ClearPendingIRQ(TRNG_IRQn);
-    NVIC_SetPriority(TRNG_IRQn, 0);
-    NVIC_EnableIRQ(TRNG_IRQn);
-    trng_enable_interrupt(TRNG);
-}
-
-volatile uint32_t rand_g;
-
-void TRNG_Handler(void)
-{
-    uint32_t status;
-
-    status = trng_get_interrupt_status(TRNG);
-
-    if ((status & TRNG_ISR_DATRDY) == TRNG_ISR_DATRDY) {
-        rand_g = trng_read_output_data(TRNG);
-        //printf("-- Random Value: %lx --\n\r", );
-    }
-}
-
-
-
 
 int main(void) {
     // Set up the clocks.
