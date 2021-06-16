@@ -41,7 +41,7 @@ static void copy_core1_image_into_sram1(void) {
         );
 }
 
-static void start_core1() {
+static void start_core1(void) {
     copy_core1_image_into_sram1();
     rstc_deassert_reset_of_coprocessor(
         RSTC,
@@ -50,7 +50,7 @@ static void start_core1() {
 }
 
 
-static void setup_clock_pin() {
+static void setup_clock_pin(void) {
     // genclk enables us to route a clock signal to an output pin.
     genclk_enable_config(
         GENCLK_PCK_1,
@@ -66,7 +66,7 @@ static void setup_clock_pin() {
 
 
 // Unused for now.
-static void set_long_flash_wait_states() {
+static void set_long_flash_wait_states(void) {
     // FWS = cycles -1
     efc_set_wait_state(EFC, 6);
 }
