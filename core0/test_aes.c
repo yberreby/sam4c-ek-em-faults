@@ -39,6 +39,11 @@ static void aes_callback(void) {
 struct aes_config g_aes_cfg;
 
 void init_aes() {
+    // Clear output.
+    for (int i = 0; i < 4; i ++) {
+        aes_output_data[i] = 0;
+    }
+
     aes_get_config_defaults(&g_aes_cfg);
     aes_init(AES, &g_aes_cfg);
     aes_enable();
@@ -98,7 +103,7 @@ void prep_ecb_decryption() {
     /* Configure the AES. */
     g_aes_cfg.encrypt_mode = AES_DECRYPTION;
     g_aes_cfg.key_size = AES_KEY_SIZE_128;
-    g_aes_cfg.start_mode = AES_MANUAL_START;
+    g_aes_cfg.start_mode = AES_AUTO_START;
     g_aes_cfg.opmode = AES_ECB_MODE;
     g_aes_cfg.cfb_size = AES_CFB_SIZE_128;
     g_aes_cfg.lod = false;

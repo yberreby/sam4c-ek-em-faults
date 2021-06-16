@@ -1,6 +1,7 @@
 #include "test_seq.h"
 #include "test_aes.h"
 #include "test_trng.h"
+#include "test_icm.h"
 #include "emfi_utils.h"
 
 #include <aes.h>
@@ -74,6 +75,8 @@ static void set_long_flash_wait_states(void) {
 
 extern volatile uint32_t core_sync_flag;
 
+volatile bool aes_ok = false;
+
 int main(void) {
     // Set up the clocks.
     // This will also enable the coprocessor clock according to the
@@ -91,7 +94,7 @@ int main(void) {
     // saves us a LOT of trouble down the road.
     init_aes();
 
-    init_trng();
+    //init_trng();
 
     // set_long_flash_wait_states()
 
@@ -100,7 +103,13 @@ int main(void) {
     setup_output_pin(CORE0_STATUS_PIN);
     setup_output_pin(CORE0_TRIGGER_PIN);
 
-    prep_ecb_encryption();
+    //prep_ecb_decryption();
+
+    //aes_ok = check_ecb_decryption();
+
+    test_icm();
+
+    while (1);
 
     core_sync_flag = 0;
     start_core1();

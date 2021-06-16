@@ -15,11 +15,8 @@ void TRNG_Handler(void)
 
     if ((status & TRNG_ISR_DATRDY) == TRNG_ISR_DATRDY) {
         rand_g = trng_read_output_data(TRNG);
-        //printf("-- Random Value: %lx --\n\r", );
     }
 }
-
-
 
 
 void init_trng() {
