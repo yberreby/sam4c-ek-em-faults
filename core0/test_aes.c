@@ -40,7 +40,7 @@ struct aes_config g_aes_cfg;
 
 void init_aes() {
     // Clear output.
-    for (int i = 0; i < 4; i ++) {
+    for (int i = 0; i < 4; i++) {
         aes_output_data[i] = 0;
     }
 

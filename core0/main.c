@@ -103,13 +103,8 @@ int main(void) {
     setup_output_pin(CORE0_STATUS_PIN);
     setup_output_pin(CORE0_TRIGGER_PIN);
 
-    //prep_ecb_decryption();
 
-    //aes_ok = check_ecb_decryption();
-
-    test_icm();
-
-    while (1);
+    // test_icm();
 
     core_sync_flag = 0;
     start_core1();
