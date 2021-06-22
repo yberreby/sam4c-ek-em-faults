@@ -47,7 +47,7 @@ static void reg_dig_mismatch_handler(uint8_t reg_num)
 
 void test_icm(void) {
     // Clear output
-    memset(output_sha, 0, 0x20);
+    memset(output_sha, 0, 0x20*sizeof(uint32_t));
 
     /* ICM configuration */
     struct icm_config icm_cfg;
