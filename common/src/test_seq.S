@@ -96,25 +96,14 @@ run_test_seq:
   // that lets us choose one of those three PIO modules
   // at linking time.
   ldr  R10,=pio_output_base
-  //ldr  R10,[R10]
 
   // trigger_pin_mask  and status_pin_mask are also externally defined.
   // To use pin N of a given PIO, you need a (1 << N) mask.
 
   ldr  R11,=trigger_pin_mask
-  //ldr  R11,[R11]
-
-  //mov R11, #(1 << 2)
-  //mov R12, #(1 << 2)
 
   ldr  R12,=status_pin_mask
-  //ldr  R12,[R12]
 
-// loop1:
-//  b loop1
-
-  
-//trig:
   //
   // 0 - 1 - 0 pulse trigger.
   //
@@ -132,10 +121,6 @@ run_test_seq:
 
   // Sequence end.
   str.w  R12,[R10, #52]
-
-  //b trig
-
-
 
   // // Use this to check the exception handlers.
   //b please_hardfault
