@@ -44,7 +44,7 @@
 //#define CONFIG_CPCLK_SOURCE         CPCLK_SRC_PLLACK
 //#define CONFIG_CPCLK_SOURCE         CPCLK_SRC_PLLBCK
 //#define CONFIG_CPCLK_SOURCE         CPCLK_SRC_PLLBCK
-#define CONFIG_CPCLK_SOURCE         CPCLK_SRC_MCK
+#define CONFIG_CPCLK_SOURCE         CPCLK_SRC_PLLBCK
 
 // Coprocessor System Clock Prescaler Options (CPCLK_PRES may be 1 to 16).
 #define CONFIG_CPCLK_PRES           1
